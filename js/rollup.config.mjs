@@ -50,7 +50,7 @@ export default {
     "@solana/buffer-layout",
   ],
   plugins: [
-    multiInput.default(),
+    multiInput(),
     nodeResolve({
       browser: true,
       preferBuiltins: false,
