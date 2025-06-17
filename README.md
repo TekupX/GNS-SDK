@@ -274,18 +274,6 @@ export const Example = () => {
 };
 ```
 
-<br />
-<a name="bounties"></a>
-<h2 align="center">Bounties</h2>
-<br />
-
-| Feature | Description                                                                         | In progress | Completed | Bounty |
-| ------- | ----------------------------------------------------------------------------------- | ----------- | --------- | ------ |
-| Golang  | Translate JS SDK into a robust, well-tested Golang SDK; high-quality code essential | ❌          | ❌        | ✅     |
-| Python  | Translate JS SDK into a robust, well-tested Python SDK; high-quality code essential | ❌          | ❌        | ✅     |
-| Java    | Translate JS SDK into a robust, well-tested Java SDK; high-quality code essential   | ❌          | ❌        | ✅     |
-| Swift   | Translate JS SDK into a robust, well-tested Swift SDK; high-quality code essential  | ❌          | ❌        | ✅     |
-
 <hr>
 
 _If you have any questions or suggestions, feel free to open an issue or pull request, or simply contact us at [@bonfida](https://twitter.com/bonfida). We're always here for a good chat about Solana and the decentralized web!_
