@@ -70,6 +70,7 @@ export const REFERRERS: PublicKey[] = [
   new PublicKey("FePcCmrr7vgjeFXcXtJHqShSXydaTrga2wfHRt9RrYvP"), // Nansen
   new PublicKey("5D2zKog251d6KPCyFyLMt3KroWwXXPWSgTPyhV22K2gR"), // SNS
   new PublicKey("452cMqDHe5cf1Z96HxUNaQjiLckhMiZdZ5abe7oQ2iRB"), // Endless Domains
+  new PublicKey("8hmebGRQpZG8RpR3SFTfnuY2K4QgNxyAtqdhR9UuFksB"), // Coupon Vault
 ];
 
 export const TOKENS_SYM_MINT = new Map<string, string>([
