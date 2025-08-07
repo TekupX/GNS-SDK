@@ -1,5 +1,6 @@
 import { GetProgramAccountsApi, Rpc } from "@solana/kit";
 
+import { addressCodec, base64Codec } from "../codecs";
 import {
   NAME_PROGRAM_ADDRESS,
   ROOT_DOMAIN_ADDRESS,
@@ -19,7 +20,7 @@ interface GetAllDomainsParams {
 export const getAllDomains = async ({ rpc }: GetAllDomainsParams) => {
   const accounts = await rpc
     .getProgramAccounts(NAME_PROGRAM_ADDRESS, {
-      encoding: "base58",
+      encoding: "base64",
       filters: [
         {
           memcmp: {
@@ -35,6 +36,6 @@ export const getAllDomains = async ({ rpc }: GetAllDomainsParams) => {
 
   return accounts.map(({ account: { data }, pubkey }) => ({
     domainAddress: pubkey,
-    owner: data[0],
+    owner: addressCodec.decode(base64Codec.encode(data[0])),
   }));
 };

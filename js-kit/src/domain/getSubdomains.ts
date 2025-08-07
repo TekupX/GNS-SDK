@@ -1,6 +1,6 @@
 import { Address, GetProgramAccountsApi, Rpc } from "@solana/kit";
 
-import { addressCodec, base58Codec } from "../codecs";
+import { addressCodec, base64Codec } from "../codecs";
 import {
   NAME_PROGRAM_ADDRESS,
   REVERSE_LOOKUP_CLASS,
@@ -37,7 +37,7 @@ export const getSubdomains = async ({
 
   const getReversesAsync = rpc
     .getProgramAccounts(NAME_PROGRAM_ADDRESS, {
-      encoding: "base58",
+      encoding: "base64",
       filters: [
         {
           memcmp: {
@@ -59,7 +59,7 @@ export const getSubdomains = async ({
 
   const getSubsAsync = await rpc
     .getProgramAccounts(NAME_PROGRAM_ADDRESS, {
-      encoding: "base58",
+      encoding: "base64",
       filters: [
         {
           memcmp: {
@@ -79,7 +79,7 @@ export const getSubdomains = async ({
     reverses.map((e) => [
       e.pubkey,
       deserializeReverse({
-        data: base58Codec.encode(e.account.data[0]).slice(96),
+        data: base64Codec.encode(e.account.data[0]).slice(96),
         trimFirstNullByte: true,
       }),
     ])
@@ -96,7 +96,7 @@ export const getSubdomains = async ({
           ? {
               subdomain,
               owner: addressCodec.decode(
-                base58Codec.encode(sub.account.data[0])
+                base64Codec.encode(sub.account.data[0])
               ),
             }
           : undefined;
