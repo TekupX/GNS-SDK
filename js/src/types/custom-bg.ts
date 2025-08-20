@@ -15,4 +15,5 @@ export enum CustomBg {
   NumberArt8 = "NumberArt#8",
   NumberArt9 = "NumberArt#9",
   ValentineDay2025 = "Valentine'sDay2025",
+  Monkedao = "Monkedao"
 }
