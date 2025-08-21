@@ -18,7 +18,7 @@ test("Create sub", async () => {
   const ix = await createSubdomain(
     connection,
     randomBytes(10).toString("hex") + ".bonfida",
-    new PublicKey("HKKp49qGWXd639QsuH7JiLijfVW5UtCVY4s1n2HANwEA"),
+    new PublicKey("Fw1ETanDZafof7xEULsnq9UY6o71Tpds89tNwPkWLb1v"),
     2_000,
   );
   tx.add(...ix);
@@ -68,7 +68,7 @@ test("Find sub domain", async () => {
     connection,
     getDomainKeySync("67679").pubkey,
   );
-  const expectedSub = ["booya", "bullish", "hollaaa", "testing"];
+  const expectedSub = ["bullish", "hollaaa", "testing"];
   subs.sort().forEach((e, idx) => expect(e).toBe(expectedSub[idx]));
 });
 

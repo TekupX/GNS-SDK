@@ -2,20 +2,20 @@
 <br />
 
 <p align="center">
-<img width="250" src="https://i.imgur.com/nn7LMNV.png"/>
+<img width="250" src="https://v2.sns.id/assets/logo/brand.svg"/>
 </p>
 
 <p align="center">
-<a href="https://twitter.com/bonfida">
-<img src="https://img.shields.io/twitter/url?label=Bonfida&style=social&url=https%3A%2F%2Ftwitter.com%2Fbonfida">
+<a href="https://twitter.com/sns">
+<img src="https://img.shields.io/twitter/url?label=SNS&style=social&url=https%3A%2F%2Ftwitter.com%2Fsns">
 </a>
 </p>
 
 <div style="display: flex; justify-content: center; align-items: center;">
 <a style="margin:0 5px" href="https://www.npmjs.com/package/@bonfida/sns-react"><img src="https://img.shields.io/npm/v/@bonfida/sns-react.svg?style=flat"></a>
 <a style="margin:0 5px" href="https://www.npmjs.com/package/@bonfida/sns-react"><img src="https://img.shields.io/npm/dm/@bonfida/sns-react.svg"></a>
-<a style="margin:0 5px" href="https://github.com/Bonfida/sns-sdk"><img src="https://img.shields.io/github/stars/Bonfida/sns-sdk"></a>
-<a style="margin:0 5px" href="https://github.com/Bonfida/sns-sdk"><img src="https://img.shields.io/github/issues/Bonfida/sns-sdk"></a>
+<a style="margin:0 5px" href="https://github.com/SolanaNameService/sns-sdk"><img src="https://img.shields.io/github/stars/SolanaNameService/sns-sdk"></a>
+<a style="margin:0 5px" href="https://github.com/SolanaNameService/sns-sdk"><img src="https://img.shields.io/github/issues/SolanaNameService/sns-sdk"></a>
 </div>
 
 This library provides a set of reusable React hooks to help make your components more efficient and easier to read.

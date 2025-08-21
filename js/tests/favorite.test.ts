@@ -23,10 +23,10 @@ test("Favorite domain", async () => {
       },
     },
     {
-      user: new PublicKey("HKKp49qGWXd639QsuH7JiLijfVW5UtCVY4s1n2HANwEA"),
+      user: new PublicKey("Fw1ETanDZafof7xEULsnq9UY6o71Tpds89tNwPkWLb1v"),
       favorite: {
-        domain: new PublicKey("Crf8hzfthWGbGbLTVCiqRqV5MVnbpHB1L9KQMd6gsinb"),
-        reverse: "bonfida",
+        domain: new PublicKey("AgJujvNQgYESUwBPitq2VUrfTaT2bvueHbgvsxqZ2sHg"),
+        reverse: "couponvault",
         stale: false,
       },
     },
@@ -44,8 +44,8 @@ test("Multiple favorite domains", async () => {
   const items = [
     // Non tokenized
     {
-      wallet: new PublicKey("HKKp49qGWXd639QsuH7JiLijfVW5UtCVY4s1n2HANwEA"),
-      domain: "bonfida",
+      wallet: new PublicKey("Fw1ETanDZafof7xEULsnq9UY6o71Tpds89tNwPkWLb1v"),
+      domain: "couponvault",
     },
     // Stale non tokenized
     {

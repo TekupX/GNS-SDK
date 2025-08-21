@@ -22,11 +22,11 @@ describe("Address methods", () => {
         },
       },
       {
-        user: "HKKp49qGWXd639QsuH7JiLijfVW5UtCVY4s1n2HANwEA" as Address,
+        user: "Fxuoy3gFjfJALhwkRcuKjRdechcgffUApeYAfMWck6w8" as Address,
         primary: {
           domainAddress:
-            "Crf8hzfthWGbGbLTVCiqRqV5MVnbpHB1L9KQMd6gsinb" as Address,
-          domainName: "bonfida",
+            "8XXesVR1EEsCEePAEyXPL9A4dd9Bayhu9MRkFBpTkibS" as Address,
+          domainName: "wallet-guide-9",
           stale: false,
         },
       },
@@ -36,7 +36,7 @@ describe("Address methods", () => {
         walletAddress: e.user,
       });
       expect(primary.domainAddress).toBe(e.primary.domainAddress);
-      expect(primary.domainName).toBe("bonfida");
+      expect(primary.domainName).toBe(e.primary.domainName);
       expect(primary.stale).toBe(e.primary.stale);
     });
   });
@@ -50,8 +50,8 @@ describe("Address methods", () => {
         },
         // Non tokenized
         {
-          address: "HKKp49qGWXd639QsuH7JiLijfVW5UtCVY4s1n2HANwEA" as Address,
-          domain: "bonfida",
+          address: "Fxuoy3gFjfJALhwkRcuKjRdechcgffUApeYAfMWck6w8" as Address,
+          domain: "wallet-guide-9",
         },
         // Stale non tokenized
         {
