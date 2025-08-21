@@ -107,4 +107,5 @@ export const REFERRERS: Address[] = [
   "5D2zKog251d6KPCyFyLMt3KroWwXXPWSgTPyhV22K2gR" as Address, //SNS
   "452cMqDHe5cf1Z96HxUNaQjiLckhMiZdZ5abe7oQ2iRB" as Address, //Endless Domains
   "8hmebGRQpZG8RpR3SFTfnuY2K4QgNxyAtqdhR9UuFksB" as Address, //Coupon Vault
+  "7siDgAEyXRCEhNjZcQ8VLVbMxXQaQY4hNcRbGbKj2i7u" as Address, //CFL
 ];
