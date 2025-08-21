@@ -61,7 +61,7 @@ test("Create", async () => {
   );
   const ix = await devnet.bindings.createNameRegistry(
     connection,
-    "devnet-test-2",
+    "devnet-test-create",
     1_000,
     OWNER,
     OWNER,
