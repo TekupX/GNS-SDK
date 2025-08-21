@@ -14,7 +14,6 @@ const RBG_0x00_KEY = new PublicKey(
 const RETARDIO_KEY = new PublicKey(
   "J2Q2j6kpSg7tq8JzueCHNTQNcyNnQkvr85RhsFnYZWeG",
 );
-
 const NUMBER_ART_KEY = new PublicKey(
   "6vwnZJZNQjtY4zR93YUuyeDUBhacLLH2mQaZiJAvVwzu",
 );
@@ -57,6 +56,7 @@ export const getArtistPubkey = (bg: CustomBg): PublicKey => {
     case CustomBg.NumberArt9:
       return NUMBER_ART_KEY;
     case CustomBg.ValentineDay2025:
+    case CustomBg.Monkedao:
       return VAULT_OWNER;
     default:
       throw new InvalidCustomBgError("The given background is invalid");

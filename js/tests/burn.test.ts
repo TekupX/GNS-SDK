@@ -7,7 +7,7 @@ jest.setTimeout(20_000);
 
 const connection = new Connection(process.env.RPC_URL!);
 
-const OWNER = new PublicKey("HKKp49qGWXd639QsuH7JiLijfVW5UtCVY4s1n2HANwEA");
+const OWNER = new PublicKey("Fw1ETanDZafof7xEULsnq9UY6o71Tpds89tNwPkWLb1v");
 
 const BURN_DST = new PublicKey("3Wnd5Df69KitZfUoPYZU438eFRNwGHkhLnSAWL65PxJX");
 
