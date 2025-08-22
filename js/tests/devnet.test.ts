@@ -5,6 +5,7 @@ import { devnet } from "../src/devnet";
 import { randomBytes } from "crypto";
 import { NATIVE_MINT, getAssociatedTokenAddressSync } from "@solana/spl-token";
 import { NameRegistryState } from "../src/state";
+import { Record } from "../src/types/record";
 jest.setTimeout(20_000);
 
 // Use custom devnet rpc if rate limited
@@ -182,6 +183,107 @@ test("Transfer sub", async () => {
     "subdomain-test.devnet-test-1",
     OWNER2,
   );
+  tx.add(ix);
+  const { blockhash } = await connection.getLatestBlockhash();
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = OWNER;
+  const res = await connection.simulateTransaction(tx);
+  expect(res.value.err).toBe(null);
+});
+
+test("Set primary", async () => {
+  const tx = new Transaction();
+
+  const domain = "devnet-test-1"
+
+  const {pubkey:nameAccount} = devnet.utils.getDomainKeySync(domain)
+
+  const ix = await devnet.bindings.setPrimaryDomain(
+    connection,
+    nameAccount,
+    OWNER,
+  );
+  tx.add(ix);
+  const { blockhash } = await connection.getLatestBlockhash();
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = OWNER;
+  const res = await connection.simulateTransaction(tx);
+  expect(res.value.err).toBe(null);
+});
+test("Set primary", async () => {
+  const tx = new Transaction();
+
+  const domain = "devnet-test-1"
+
+  const {pubkey:nameAccount} = devnet.utils.getDomainKeySync(domain)
+
+  const ix = await devnet.bindings.setPrimaryDomain(
+    connection,
+    nameAccount,
+    OWNER,
+  );
+  tx.add(ix);
+  const { blockhash } = await connection.getLatestBlockhash();
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = OWNER;
+  const res = await connection.simulateTransaction(tx);
+  expect(res.value.err).toBe(null);
+});
+
+test("Set primary", async () => {
+  const tx = new Transaction();
+
+  const domain = "devnet-test-1"
+
+  const {pubkey:nameAccount} = devnet.utils.getDomainKeySync(domain)
+
+  const ix = await devnet.bindings.setPrimaryDomain(
+    connection,
+    nameAccount,
+    OWNER,
+  );
+  tx.add(ix);
+  const { blockhash } = await connection.getLatestBlockhash();
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = OWNER;
+  const res = await connection.simulateTransaction(tx);
+  expect(res.value.err).toBe(null);
+});
+
+test("Set primary", async () => {
+  const tx = new Transaction();
+
+  const domain = "devnet-test-1"
+
+  const {pubkey:nameAccount} = devnet.utils.getDomainKeySync(domain)
+
+  const ix = await devnet.bindings.setPrimaryDomain(
+    connection,
+    nameAccount,
+    OWNER,
+  );
+  tx.add(ix);
+  const { blockhash } = await connection.getLatestBlockhash();
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = OWNER;
+  const res = await connection.simulateTransaction(tx);
+  expect(res.value.err).toBe(null);
+});
+
+
+test("Set record", async () => {
+  const tx = new Transaction();
+
+  const domain = "devnet-test-1"
+
+  const ix = await devnet.bindings.createRecordV2Instruction(
+    domain,
+    Record.Discord,
+    "dotsofan100",
+    OWNER,
+    OWNER
+  );
+
   tx.add(ix);
   const { blockhash } = await connection.getLatestBlockhash();
   tx.recentBlockhash = blockhash;
