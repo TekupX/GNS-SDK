@@ -833,7 +833,7 @@ const registerDomainNameV2 = async (
  * @param programId The name offer program ID
  * @returns
  */
-export const registerFavorite = async (
+ const registerFavorite = async (
   connection: Connection,
   nameAccount: PublicKey,
   owner: PublicKey,
@@ -866,7 +866,7 @@ export const registerFavorite = async (
  * @param owner The owner you want to retrieve the favorite domain for
  * @returns
  */
-export const getFavoriteDomain = async (
+const getFavoriteDomain = async (
   connection: Connection,
   owner: PublicKey,
 ) => {
@@ -910,7 +910,7 @@ export const getFavoriteDomain = async (
  * @param payer The fee payer of the transaction
  * @returns
  */
-export const createRecordV2Instruction = (
+const createRecordV2Instruction = (
   domain: string,
   record: Record,
   content: string,
