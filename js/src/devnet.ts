@@ -40,11 +40,6 @@ import { serializeRecordV2Content } from "./record_v2/serializeRecordV2Content";
 import { Record, RecordVersion } from "./types/record";
 import { allocateAndPostRecordInstruction } from "@bonfida/sns-records";
 
-const [centralStateSnsRecordsPda] = PublicKey.findProgramAddressSync(
-  [new PublicKey("Ga872GkshNeNMDag7m1Bn54dN3NiHksfqnN2pH6A1H9F").toBuffer()],
-  new PublicKey("Ga872GkshNeNMDag7m1Bn54dN3NiHksfqnN2pH6A1H9F"),
-);
-
 const constants = {
   /**
    * The Solana Name Service program ID
@@ -74,7 +69,9 @@ const constants = {
 
   SNS_RECORDS_ID: new PublicKey("Ga872GkshNeNMDag7m1Bn54dN3NiHksfqnN2pH6A1H9F"),
 
-  CENTRAL_STATE_SNS_RECORDS: centralStateSnsRecordsPda,
+  CENTRAL_STATE_SNS_RECORDS: new PublicKey(
+    "9Wo9amAUKvrHXSSwg9HXY28miHH3sh2TQhxNgYiewkpg",
+  ),
 
   /**
    * The reverse look up class
