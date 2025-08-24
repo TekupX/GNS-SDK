@@ -210,66 +210,6 @@ test("Set primary", async () => {
   const res = await connection.simulateTransaction(tx);
   expect(res.value.err).toBe(null);
 });
-test("Set primary", async () => {
-  const tx = new Transaction();
-
-  const domain = "devnet-test-1"
-
-  const {pubkey:nameAccount} = devnet.utils.getDomainKeySync(domain)
-
-  const ix = await devnet.bindings.setPrimaryDomain(
-    connection,
-    nameAccount,
-    OWNER,
-  );
-  tx.add(ix);
-  const { blockhash } = await connection.getLatestBlockhash();
-  tx.recentBlockhash = blockhash;
-  tx.feePayer = OWNER;
-  const res = await connection.simulateTransaction(tx);
-  expect(res.value.err).toBe(null);
-});
-
-test("Set primary", async () => {
-  const tx = new Transaction();
-
-  const domain = "devnet-test-1"
-
-  const {pubkey:nameAccount} = devnet.utils.getDomainKeySync(domain)
-
-  const ix = await devnet.bindings.setPrimaryDomain(
-    connection,
-    nameAccount,
-    OWNER,
-  );
-  tx.add(ix);
-  const { blockhash } = await connection.getLatestBlockhash();
-  tx.recentBlockhash = blockhash;
-  tx.feePayer = OWNER;
-  const res = await connection.simulateTransaction(tx);
-  expect(res.value.err).toBe(null);
-});
-
-test("Set primary", async () => {
-  const tx = new Transaction();
-
-  const domain = "devnet-test-1"
-
-  const {pubkey:nameAccount} = devnet.utils.getDomainKeySync(domain)
-
-  const ix = await devnet.bindings.setPrimaryDomain(
-    connection,
-    nameAccount,
-    OWNER,
-  );
-  tx.add(ix);
-  const { blockhash } = await connection.getLatestBlockhash();
-  tx.recentBlockhash = blockhash;
-  tx.feePayer = OWNER;
-  const res = await connection.simulateTransaction(tx);
-  expect(res.value.err).toBe(null);
-});
-
 
 test("Set record", async () => {
   const tx = new Transaction();
