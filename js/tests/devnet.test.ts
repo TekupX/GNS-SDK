@@ -194,9 +194,9 @@ test("Transfer sub", async () => {
 test("Set primary", async () => {
   const tx = new Transaction();
 
-  const domain = "devnet-test-1"
+  const domain = "devnet-test-1";
 
-  const {pubkey:nameAccount} = devnet.utils.getDomainKeySync(domain)
+  const { pubkey: nameAccount } = devnet.utils.getDomainKeySync(domain);
 
   const ix = await devnet.bindings.setPrimaryDomain(
     connection,
@@ -214,14 +214,14 @@ test("Set primary", async () => {
 test("Set record", async () => {
   const tx = new Transaction();
 
-  const domain = "devnet-test-1"
+  const domain = "devnet-test-1";
 
   const ix = await devnet.bindings.createRecordV2Instruction(
     domain,
     Record.Discord,
     "dotsofan100",
     OWNER,
-    OWNER
+    OWNER,
   );
 
   tx.add(ix);
