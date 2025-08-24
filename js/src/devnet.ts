@@ -37,12 +37,12 @@ import { PYTH_PULL_FEEDS } from "./constants";
 import { FavouriteDomain } from "./favorite-domain";
 import { registerFavoriteInstruction } from "./instructions/registerFavoriteInstruction";
 import { serializeRecordV2Content } from "./record_v2/serializeRecordV2Content";
-import { Record, RecordVersion, } from "./types/record";
+import { Record, RecordVersion } from "./types/record";
 import { allocateAndPostRecordInstruction } from "@bonfida/sns-records";
 
 const [centralStateSnsRecordsPda] = PublicKey.findProgramAddressSync(
   [new PublicKey("Ga872GkshNeNMDag7m1Bn54dN3NiHksfqnN2pH6A1H9F").toBuffer()],
-  new PublicKey("Ga872GkshNeNMDag7m1Bn54dN3NiHksfqnN2pH6A1H9F")
+  new PublicKey("Ga872GkshNeNMDag7m1Bn54dN3NiHksfqnN2pH6A1H9F"),
 );
 
 const constants = {
@@ -70,15 +70,11 @@ const constants = {
     "snshBoEQ9jx4QoHBpZDQPYdNCtw7RMxJvYrKFEhwaPJ",
   ),
 
-  NAME_OFFERS_ID: new PublicKey(
-    "zugu92jR3kqgFiNEJywq7gbbc9NbaLmHLiQhsZRwd6J",
-  ),
+  NAME_OFFERS_ID: new PublicKey("zugu92jR3kqgFiNEJywq7gbbc9NbaLmHLiQhsZRwd6J"),
 
-  SNS_RECORDS_ID: new PublicKey(
-    "Ga872GkshNeNMDag7m1Bn54dN3NiHksfqnN2pH6A1H9F",
-  ),
+  SNS_RECORDS_ID: new PublicKey("Ga872GkshNeNMDag7m1Bn54dN3NiHksfqnN2pH6A1H9F"),
 
-   CENTRAL_STATE_SNS_RECORDS: centralStateSnsRecordsPda,
+  CENTRAL_STATE_SNS_RECORDS: centralStateSnsRecordsPda,
 
   /**
    * The reverse look up class
@@ -172,7 +168,7 @@ const getNameAccountKeySync = (
 const reverseLookup = async (
   connection: Connection,
   nameAccount: PublicKey,
-    parent?: PublicKey,
+  parent?: PublicKey,
 ): Promise<string> => {
   const hashedReverseLookup = getHashedNameSync(nameAccount.toBase58());
   const reverseLookupAccount = getNameAccountKeySync(
@@ -205,7 +201,9 @@ const getDomainKeySync = (domain: string, record?: RecordVersion) => {
     domain = domain.slice(0, -4);
   }
   const recordClass =
-    record === RecordVersion.V2 ? constants.CENTRAL_STATE_SNS_RECORDS : undefined;
+    record === RecordVersion.V2
+      ? constants.CENTRAL_STATE_SNS_RECORDS
+      : undefined;
   const splitted = domain.split(".");
   if (splitted.length === 2) {
     const prefix = Buffer.from([record ? record : 0]).toString();
@@ -232,7 +230,6 @@ const getDomainKeySync = (domain: string, record?: RecordVersion) => {
   const result = _deriveSync(domain, constants.ROOT_DOMAIN_ACCOUNT);
   return { ...result, isSub: false, parent: undefined };
 };
-
 
 const getReverseKeySync = (domain: string, isSub?: boolean) => {
   const { pubkey, parent } = getDomainKeySync(domain);
@@ -833,7 +830,7 @@ const registerDomainNameV2 = async (
  * @param programId The name offer program ID
  * @returns
  */
- const registerFavorite = async (
+const setPrimaryDomain = async (
   connection: Connection,
   nameAccount: PublicKey,
   owner: PublicKey,
@@ -847,7 +844,10 @@ const registerDomainNameV2 = async (
     parent = registry.parentName;
   }
 
-  const [favKey] = await FavouriteDomain.getKey(constants.NAME_OFFERS_ID, owner);
+  const [favKey] = await FavouriteDomain.getKey(
+    constants.NAME_OFFERS_ID,
+    owner,
+  );
   const ix = new registerFavoriteInstruction().getInstruction(
     constants.NAME_OFFERS_ID,
     nameAccount,
@@ -859,17 +859,13 @@ const registerDomainNameV2 = async (
   return ix;
 };
 
-
 /**
  * This function can be used to retrieve the favorite domain of a user
  * @param connection The Solana RPC connection object
  * @param owner The owner you want to retrieve the favorite domain for
  * @returns
  */
-const getFavoriteDomain = async (
-  connection: Connection,
-  owner: PublicKey,
-) => {
+const getPrimaryDomain = async (connection: Connection, owner: PublicKey) => {
   const [favKey] = FavouriteDomain.getKeySync(
     constants.NAME_OFFERS_ID,
     new PublicKey(owner),
@@ -931,30 +927,30 @@ const createRecordV2Instruction = (
   }
 
   const allocateAndPostRecord = (
-  feePayer: PublicKey,
-  recordKey: PublicKey,
-  domainKey: PublicKey,
-  domainOwner: PublicKey,
-  nameProgramId: PublicKey,
-  record: string,
-  content: Buffer,
-  programId: PublicKey
-) => {
-  const ix = new allocateAndPostRecordInstruction({
-    record,
-    content: Array.from(content),
-  }).getInstruction(
-    programId,
-    SystemProgram.programId,
-    nameProgramId,
-    feePayer,
-    recordKey,
-    domainKey,
-    domainOwner,
-    constants.CENTRAL_STATE_SNS_RECORDS
-  );
-  return ix;
-};
+    feePayer: PublicKey,
+    recordKey: PublicKey,
+    domainKey: PublicKey,
+    domainOwner: PublicKey,
+    nameProgramId: PublicKey,
+    record: string,
+    content: Buffer,
+    programId: PublicKey,
+  ) => {
+    const ix = new allocateAndPostRecordInstruction({
+      record,
+      content: Array.from(content),
+    }).getInstruction(
+      programId,
+      SystemProgram.programId,
+      nameProgramId,
+      feePayer,
+      recordKey,
+      domainKey,
+      domainOwner,
+      constants.CENTRAL_STATE_SNS_RECORDS,
+    );
+    return ix;
+  };
 
   const ix = allocateAndPostRecord(
     payer,
@@ -969,8 +965,6 @@ const createRecordV2Instruction = (
   return ix;
 };
 
-
-
 export const devnet = {
   utils: {
     getNameAccountKeySync,
@@ -978,7 +972,7 @@ export const devnet = {
     _deriveSync,
     getDomainKeySync,
     getReverseKeySync,
-    getPrimaryDomain: getFavoriteDomain,
+    getPrimaryDomain,
   },
   constants,
   bindings: {
@@ -992,7 +986,7 @@ export const devnet = {
     burnDomain,
     transferSubdomain,
     registerDomainNameV2,
-        setPrimaryDomain:registerFavorite,
+    setPrimaryDomain,
     createRecordV2Instruction,
   },
 };
