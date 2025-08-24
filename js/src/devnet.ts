@@ -25,7 +25,7 @@ import {
 import {
   InvalidDomainError,
   InvalidInputError,
-  InvalidParrentError,
+  InvalidParentError,
   InvalidSubdomainError,
   NoAccountDataError,
   PythFeedNotFoundError,
@@ -920,7 +920,7 @@ const createRecordV2Instruction = (
   }
 
   if (!parent) {
-    throw new InvalidParrentError("Parent could not be found");
+    throw new InvalidParentError("Parent could not be found");
   }
 
   const allocateAndPostRecord = (

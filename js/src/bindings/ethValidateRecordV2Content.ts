@@ -8,7 +8,7 @@ import {
   validateEthSignature,
   Validation,
 } from "@bonfida/sns-records";
-import { InvalidParrentError } from "../error";
+import { InvalidParentError } from "../error";
 
 export const ethValidateRecordV2Content = (
   domain: string,
@@ -28,7 +28,7 @@ export const ethValidateRecordV2Content = (
   }
 
   if (!parent) {
-    throw new InvalidParrentError("Parent could not be found");
+    throw new InvalidParentError("Parent could not be found");
   }
 
   const ix = validateEthSignature(

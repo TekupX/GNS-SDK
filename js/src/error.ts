@@ -31,7 +31,7 @@ export enum ErrorType {
   PythFeedNotFound = "PythFeedNotFound",
   InvalidRoA = "InvalidRoA",
   InvalidPda = "InvalidPda",
-  InvalidParrent = "InvalidParrent",
+  InvalidParent = "InvalidParent",
   NftRecordNotFound = "NftRecordNotFound",
   PdaOwnerNotAllowed = "PdaOwnerNotAllowed",
   DomainDoesNotExist = "DomainDoesNotExist",
@@ -245,9 +245,9 @@ export class InvalidPdaError extends SNSError {
   }
 }
 
-export class InvalidParrentError extends SNSError {
+export class InvalidParentError extends SNSError {
   constructor(message?: string) {
-    super(ErrorType.InvalidParrent, message);
+    super(ErrorType.InvalidParent, message);
   }
 }
 

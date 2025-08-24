@@ -4,7 +4,7 @@ import { getDomainKeySync } from "../utils/getDomainKeySync";
 import { Record, RecordVersion } from "../types/record";
 import { serializeRecordV2Content } from "../record_v2/serializeRecordV2Content";
 import { editRecord, SNS_RECORDS_ID } from "@bonfida/sns-records";
-import { InvalidParrentError } from "../error";
+import { InvalidParentError } from "../error";
 
 /**
  * This function updates the content of a record V2. The data serialization follows the SNS-IP 1 guidelines
@@ -33,7 +33,7 @@ export const updateRecordV2Instruction = (
   }
 
   if (!parent) {
-    throw new InvalidParrentError("Parent could not be found");
+    throw new InvalidParentError("Parent could not be found");
   }
 
   const ix = editRecord(
