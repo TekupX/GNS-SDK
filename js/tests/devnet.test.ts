@@ -265,27 +265,6 @@ test("Write ROA", async () => {
   expect(res.value.err).toBe(null);
 });
 
-test("Write ROA", async () => {
-  const tx = new Transaction();
-
-  const domain = "dotsofan22";
-
-  const ix = devnet.bindings.writRoaRecordV2(
-    domain,
-    Record.SOL,
-    OWNER3,
-    OWNER3,
-    OWNER3,
-  );
-
-  tx.add(ix);
-  const { blockhash } = await connection.getLatestBlockhash();
-  tx.recentBlockhash = blockhash;
-  tx.feePayer = OWNER3;
-  const res = await connection.simulateTransaction(tx);
-  expect(res.value.err).toBe(null);
-});
-
 test("Validate Record", async () => {
   const tx = new Transaction();
 
