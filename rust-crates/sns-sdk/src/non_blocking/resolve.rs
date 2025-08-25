@@ -202,6 +202,7 @@ pub async fn get_domains_owner(
             encoding: Some(UiAccountEncoding::Base64),
             ..Default::default()
         },
+        sort_results: None,
     };
     let res = rpc_client
         .get_program_accounts_with_config(&spl_name_service::ID, config.clone())
@@ -227,6 +228,7 @@ pub async fn get_record_from_mint(
             encoding: Some(UiAccountEncoding::Base64),
             ..Default::default()
         },
+        sort_results: None,
     };
 
     let res = rpc_client
@@ -251,6 +253,8 @@ pub async fn get_nft_records(
             encoding: Some(UiAccountEncoding::Base64),
             ..Default::default()
         },
+
+        sort_results: None,
     };
     let res = rpc_client
         .get_program_accounts_with_config(&spl_token::ID, config.clone())
@@ -322,6 +326,7 @@ pub async fn get_subdomains(
             encoding: Some(UiAccountEncoding::Base64),
             ..Default::default()
         },
+        sort_results: None,
     };
     let res = rpc_client
         .get_program_accounts_with_config(&spl_name_service::ID, config.clone())
@@ -368,6 +373,7 @@ pub async fn resolve_nft_owner(
             encoding: Some(UiAccountEncoding::Base64),
             ..Default::default()
         },
+        sort_results: None,
     };
     let res = rpc_client
         .get_program_accounts_with_config(&spl_token::ID, config.clone())

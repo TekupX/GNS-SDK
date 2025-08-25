@@ -749,6 +749,7 @@ pub async fn process_system_dump(rpc_client: &RpcClient) -> CliResult {
                     min_context_slot: None,
                 },
                 with_context: None,
+                sort_results: None,
             },
         )
         .await?;
