@@ -15,6 +15,7 @@ const connection = new Connection(
 
 const OWNER = new PublicKey("3f9fRjLaDSDVxd26xMEm4WuSXv62cGt5qVfEVGwMfTz6");
 const OWNER2 = new PublicKey("DjXsn34uz8hnC4KLiSkEVNmzqX5ZFP2Q7aErTBH8LWxe");
+const OWNER3 = new PublicKey("3DdZkHbt2rHDzKSNPK9ApQCwhA6anDKUzuWoCooie6oJ");
 
 test("Registration", async () => {
   const tx = new Transaction();
@@ -209,6 +210,17 @@ test("Set primary", async () => {
   tx.feePayer = OWNER;
   const res = await connection.simulateTransaction(tx);
   expect(res.value.err).toBe(null);
+});
+
+test("Get primary", async () => {
+  const domain = "dotsofan22";
+
+  const { reverse: primaryDomain } = await devnet.utils.getPrimaryDomain(
+    connection,
+    OWNER3,
+  );
+
+  expect(primaryDomain).toBe(domain);
 });
 
 test("Set record", async () => {
