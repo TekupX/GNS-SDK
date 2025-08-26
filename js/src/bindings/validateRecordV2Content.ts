@@ -3,7 +3,7 @@ import { NAME_PROGRAM_ID } from "../constants";
 import { getDomainKeySync } from "../utils/getDomainKeySync";
 import { Record, RecordVersion } from "../types/record";
 import { SNS_RECORDS_ID, validateSolanaSignature } from "@bonfida/sns-records";
-import { InvalidParrentError } from "../error";
+import { InvalidParentError } from "../error";
 
 export const validateRecordV2Content = (
   staleness: boolean,
@@ -23,7 +23,7 @@ export const validateRecordV2Content = (
   }
 
   if (!parent) {
-    throw new InvalidParrentError("Parent could not be found");
+    throw new InvalidParentError("Parent could not be found");
   }
 
   const ix = validateSolanaSignature(

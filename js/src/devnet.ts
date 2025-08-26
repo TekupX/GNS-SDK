@@ -25,6 +25,7 @@ import {
 import {
   InvalidDomainError,
   InvalidInputError,
+  InvalidParentError,
   InvalidSubdomainError,
   NoAccountDataError,
   PythFeedNotFoundError,
@@ -33,6 +34,17 @@ import { deserializeReverse } from "./utils/deserializeReverse";
 import { getHashedNameSync } from "./utils/getHashedNameSync";
 import { getPythFeedAccountKey } from "./utils/getPythFeedAccountKey";
 import { PYTH_PULL_FEEDS } from "./constants";
+import { FavouriteDomain } from "./favorite-domain";
+import { registerFavoriteInstruction } from "./instructions/registerFavoriteInstruction";
+import { serializeRecordV2Content } from "./record_v2/serializeRecordV2Content";
+import { Record, RecordVersion } from "./types/record";
+import {
+  allocateAndPostRecordInstruction,
+  deleteRecordInstruction,
+  editRecordInstruction,
+  validateSolanaSignatureInstruction,
+  writeRoaInstruction,
+} from "@bonfida/sns-records";
 
 const constants = {
   /**
@@ -57,6 +69,14 @@ const constants = {
    */
   REGISTER_PROGRAM_ID: new PublicKey(
     "snshBoEQ9jx4QoHBpZDQPYdNCtw7RMxJvYrKFEhwaPJ",
+  ),
+
+  NAME_OFFERS_ID: new PublicKey("zugu92jR3kqgFiNEJywq7gbbc9NbaLmHLiQhsZRwd6J"),
+
+  SNS_RECORDS_ID: new PublicKey("Ga872GkshNeNMDag7m1Bn54dN3NiHksfqnN2pH6A1H9F"),
+
+  CENTRAL_STATE_SNS_RECORDS: new PublicKey(
+    "9Wo9amAUKvrHXSSwg9HXY28miHH3sh2TQhxNgYiewkpg",
   ),
 
   /**
@@ -151,6 +171,7 @@ const getNameAccountKeySync = (
 const reverseLookup = async (
   connection: Connection,
   nameAccount: PublicKey,
+  parent?: PublicKey,
 ): Promise<string> => {
   const hashedReverseLookup = getHashedNameSync(nameAccount.toBase58());
   const reverseLookupAccount = getNameAccountKeySync(
@@ -165,7 +186,7 @@ const reverseLookup = async (
   if (!registry.data) {
     throw new NoAccountDataError("The registry data is empty");
   }
-  return deserializeReverse(registry.data);
+  return deserializeReverse(registry.data, !!parent);
 };
 
 const _deriveSync = (
@@ -178,18 +199,34 @@ const _deriveSync = (
   return { pubkey, hashed };
 };
 
-const getDomainKeySync = (domain: string) => {
+const getDomainKeySync = (domain: string, record?: RecordVersion) => {
   if (domain.endsWith(".sol")) {
     domain = domain.slice(0, -4);
   }
-
+  const recordClass =
+    record === RecordVersion.V2
+      ? constants.CENTRAL_STATE_SNS_RECORDS
+      : undefined;
   const splitted = domain.split(".");
   if (splitted.length === 2) {
-    const prefix = "\0";
+    const prefix = Buffer.from([record ? record : 0]).toString();
     const sub = prefix.concat(splitted[0]);
     const { pubkey: parentKey } = _deriveSync(splitted[1]);
-    const result = _deriveSync(sub, parentKey);
+    const result = _deriveSync(sub, parentKey, recordClass);
     return { ...result, isSub: true, parent: parentKey };
+  } else if (splitted.length === 3 && !!record) {
+    // Parent key
+    const { pubkey: parentKey } = _deriveSync(splitted[2]);
+    // Sub domain
+    const { pubkey: subKey } = _deriveSync("\0".concat(splitted[1]), parentKey);
+    // Sub record
+    const recordPrefix = record === RecordVersion.V2 ? `\x02` : `\x01`;
+    const result = _deriveSync(
+      recordPrefix.concat(splitted[0]),
+      subKey,
+      recordClass,
+    );
+    return { ...result, isSub: true, parent: parentKey, isSubRecord: true };
   } else if (splitted.length >= 3) {
     throw new InvalidInputError("The domain is malformed");
   }
@@ -789,6 +826,308 @@ const registerDomainNameV2 = async (
   return ixs;
 };
 
+/**
+ * This function can be used to register a domain name as favorite
+ * @param nameAccount The name account being registered as favorite
+ * @param owner The owner of the name account
+ * @param programId The name offer program ID
+ * @returns
+ */
+const setPrimaryDomain = async (
+  connection: Connection,
+  nameAccount: PublicKey,
+  owner: PublicKey,
+) => {
+  let parent: PublicKey | undefined = undefined;
+  const { registry } = await NameRegistryState.retrieve(
+    connection,
+    nameAccount,
+  );
+  if (!registry.parentName.equals(constants.ROOT_DOMAIN_ACCOUNT)) {
+    parent = registry.parentName;
+  }
+
+  const [favKey] = await FavouriteDomain.getKey(
+    constants.NAME_OFFERS_ID,
+    owner,
+  );
+  const ix = new registerFavoriteInstruction().getInstruction(
+    constants.NAME_OFFERS_ID,
+    nameAccount,
+    favKey,
+    owner,
+    SystemProgram.programId,
+    parent,
+  );
+
+  return ix;
+};
+
+/**
+ * This function can be used to retrieve the favorite domain of a user
+ * @param connection The Solana RPC connection object
+ * @param owner The owner you want to retrieve the favorite domain for
+ * @returns
+ */
+const getPrimaryDomain = async (connection: Connection, owner: PublicKey) => {
+  const [favKey] = FavouriteDomain.getKeySync(
+    constants.NAME_OFFERS_ID,
+    new PublicKey(owner),
+  );
+  const favorite = await FavouriteDomain.retrieve(connection, favKey);
+  const { registry, nftOwner } = await NameRegistryState.retrieve(
+    connection,
+    favorite.nameAccount,
+  );
+  const domainOwner = nftOwner || registry.owner;
+
+  let reverse = await reverseLookup(
+    connection,
+    favorite.nameAccount,
+    registry.parentName.equals(constants.ROOT_DOMAIN_ACCOUNT)
+      ? undefined
+      : registry.parentName,
+  );
+
+  if (!registry.parentName.equals(constants.ROOT_DOMAIN_ACCOUNT)) {
+    const parentReverse = await reverseLookup(connection, registry.parentName);
+    reverse += `.${parentReverse}`;
+  }
+
+  return {
+    domain: favorite.nameAccount,
+    reverse,
+    stale: !owner.equals(domainOwner),
+  };
+};
+
+/**
+ * This function can be used be create a record V2, it handles the serialization of the record data following SNS-IP 1 guidelines
+ * @param domain The .sol domain name
+ * @param record The record enum object
+ * @param recordV2 The `RecordV2` object that will be serialized into the record via the update instruction
+ * @param owner The owner of the domain
+ * @param payer The fee payer of the transaction
+ * @returns
+ */
+const createRecordV2Instruction = (
+  domain: string,
+  record: Record,
+  content: string,
+  owner: PublicKey,
+  payer: PublicKey,
+) => {
+  let { pubkey, parent, isSub } = getDomainKeySync(
+    `${record}.${domain}`,
+    RecordVersion.V2,
+  );
+
+  if (isSub) {
+    parent = getDomainKeySync(domain).pubkey;
+  }
+
+  if (!parent) {
+    throw new InvalidParentError("Parent could not be found");
+  }
+
+  const ix = new allocateAndPostRecordInstruction({
+    record: `\x02`.concat(record as string),
+    content: Array.from(serializeRecordV2Content(content, record)),
+  }).getInstruction(
+    constants.SNS_RECORDS_ID,
+    SystemProgram.programId,
+    constants.NAME_PROGRAM_ID,
+    payer,
+    pubkey,
+    parent,
+    owner,
+    constants.CENTRAL_STATE_SNS_RECORDS,
+  );
+
+  return ix;
+};
+
+/**
+ * This function updates the content of a record V2. The data serialization follows the SNS-IP 1 guidelines
+ * @param connection The Solana RPC connection object
+ * @param domain The .sol domain name
+ * @param record The record enum object
+ * @param recordV2 The `RecordV2` object to serialize into the record
+ * @param owner The owner of the record/domain
+ * @param payer The fee payer of the transaction
+ * @returns The update record instructions
+ */
+const updateRecordV2Instruction = (
+  domain: string,
+  record: Record,
+  content: string,
+  owner: PublicKey,
+  payer: PublicKey,
+) => {
+  let { pubkey, parent, isSub } = getDomainKeySync(
+    `${record}.${domain}`,
+    RecordVersion.V2,
+  );
+
+  if (isSub) {
+    parent = getDomainKeySync(domain).pubkey;
+  }
+
+  if (!parent) {
+    throw new InvalidParentError("Parent could not be found");
+  }
+
+  const ix = new editRecordInstruction({
+    record: `\x02`.concat(record as string),
+    content: Array.from(serializeRecordV2Content(content, record)),
+  }).getInstruction(
+    constants.SNS_RECORDS_ID,
+    SystemProgram.programId,
+    constants.NAME_PROGRAM_ID,
+    payer,
+    pubkey,
+    parent,
+    owner,
+    constants.CENTRAL_STATE_SNS_RECORDS,
+  );
+
+  return ix;
+};
+
+/**
+ * This function deletes a record v2 and returns the rent to the fee payer
+ * @param domain The .sol domain name
+ * @param record  The record type enum
+ * @param owner The owner of the record to delete
+ * @param payer The fee payer of the transaction
+ * @returns The delete transaction instruction
+ */
+const deleteRecordV2 = (
+  domain: string,
+  record: Record,
+  owner: PublicKey,
+  payer: PublicKey,
+) => {
+  let { pubkey, parent, isSub } = getDomainKeySync(
+    `${record}.${domain}`,
+    RecordVersion.V2,
+  );
+
+  if (isSub) {
+    parent = getDomainKeySync(domain).pubkey;
+  }
+
+  if (!parent) {
+    throw new InvalidParentError("Parent could not be found");
+  }
+
+  const ix = new deleteRecordInstruction().getInstruction(
+    constants.SNS_RECORDS_ID,
+    SystemProgram.programId,
+    constants.NAME_PROGRAM_ID,
+    payer,
+    pubkey,
+    parent,
+    owner,
+    constants.CENTRAL_STATE_SNS_RECORDS,
+  );
+
+  return ix;
+};
+
+/**
+ * This function validates record v2 content
+ * @param staleness Boolean indicating if a record is stale or not
+ * @param domain  The .sol domain name
+ * @param record The record type enum
+ * @param owner The owner of the record/domain
+ * @param payer The fee payer of the transaction
+ * @param verifier The Public Key of verifier used to validate record content
+ * @returns The validate record v2 content transaction instruction
+ */
+const validateRecordV2Content = (
+  staleness: boolean,
+  domain: string,
+  record: Record,
+  owner: PublicKey,
+  payer: PublicKey,
+  verifier: PublicKey,
+) => {
+  let { pubkey, parent, isSub } = getDomainKeySync(
+    `${record}.${domain}`,
+    RecordVersion.V2,
+  );
+
+  if (isSub) {
+    parent = getDomainKeySync(domain).pubkey;
+  }
+
+  if (!parent) {
+    throw new InvalidParentError("Parent could not be found");
+  }
+
+  const ix = new validateSolanaSignatureInstruction({
+    staleness,
+  }).getInstruction(
+    constants.SNS_RECORDS_ID,
+    SystemProgram.programId,
+    constants.NAME_PROGRAM_ID,
+    payer,
+    pubkey,
+    parent,
+    owner,
+    constants.CENTRAL_STATE_SNS_RECORDS,
+    verifier,
+  );
+
+  return ix;
+};
+
+/**
+ * This function writes a Right of Association on a record v2
+ * @param domain  The .sol domain name
+ * @param record The record type enum
+ * @param owner The owner of the record/domain
+ * @param payer The fee payer of the transaction
+ * @param roaId The authority written to verify the ROA
+ * @returns The write ROA record v2 transaction instruction
+ */
+const writRoaRecordV2 = (
+  domain: string,
+  record: Record,
+  owner: PublicKey,
+  payer: PublicKey,
+  roaId: PublicKey,
+) => {
+  let { pubkey, parent, isSub } = getDomainKeySync(
+    `${record}.${domain}`,
+    RecordVersion.V2,
+  );
+
+  if (isSub) {
+    parent = getDomainKeySync(domain).pubkey;
+  }
+
+  if (!parent) {
+    throw new InvalidParentError("Parent could not be found");
+  }
+
+  const ix = new writeRoaInstruction({
+    roaId: Array.from(roaId.toBuffer()),
+  }).getInstruction(
+    constants.SNS_RECORDS_ID,
+    SystemProgram.programId,
+    constants.NAME_PROGRAM_ID,
+    payer,
+    pubkey,
+    parent,
+    owner,
+    constants.CENTRAL_STATE_SNS_RECORDS,
+  );
+
+  return ix;
+};
+
 export const devnet = {
   utils: {
     getNameAccountKeySync,
@@ -796,6 +1135,7 @@ export const devnet = {
     _deriveSync,
     getDomainKeySync,
     getReverseKeySync,
+    getPrimaryDomain,
   },
   constants,
   bindings: {
@@ -809,5 +1149,11 @@ export const devnet = {
     burnDomain,
     transferSubdomain,
     registerDomainNameV2,
+    setPrimaryDomain,
+    createRecordV2Instruction,
+    updateRecordV2Instruction,
+    deleteRecordV2,
+    validateRecordV2Content,
+    writRoaRecordV2,
   },
 };

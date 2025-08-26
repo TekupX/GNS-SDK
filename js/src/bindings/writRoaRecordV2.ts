@@ -3,7 +3,7 @@ import { NAME_PROGRAM_ID } from "../constants";
 import { getDomainKeySync } from "../utils/getDomainKeySync";
 import { Record, RecordVersion } from "../types/record";
 import { SNS_RECORDS_ID, writeRoa } from "@bonfida/sns-records";
-import { InvalidParrentError } from "../error";
+import { InvalidParentError } from "../error";
 
 export const writRoaRecordV2 = (
   domain: string,
@@ -22,7 +22,7 @@ export const writRoaRecordV2 = (
   }
 
   if (!parent) {
-    throw new InvalidParrentError("Parent could not be found");
+    throw new InvalidParentError("Parent could not be found");
   }
   const ix = writeRoa(
     payer,

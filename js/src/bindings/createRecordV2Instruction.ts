@@ -4,7 +4,7 @@ import { NAME_PROGRAM_ID } from "../constants";
 import { getDomainKeySync } from "../utils/getDomainKeySync";
 import { Record, RecordVersion } from "../types/record";
 import { serializeRecordV2Content } from "../record_v2/serializeRecordV2Content";
-import { InvalidParrentError } from "../error";
+import { InvalidParentError } from "../error";
 
 /**
  * This function can be used be create a record V2, it handles the serialization of the record data following SNS-IP 1 guidelines
@@ -32,7 +32,7 @@ export const createRecordV2Instruction = (
   }
 
   if (!parent) {
-    throw new InvalidParrentError("Parent could not be found");
+    throw new InvalidParentError("Parent could not be found");
   }
 
   const ix = allocateAndPostRecord(

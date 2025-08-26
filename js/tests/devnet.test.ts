@@ -5,6 +5,7 @@ import { devnet } from "../src/devnet";
 import { randomBytes } from "crypto";
 import { NATIVE_MINT, getAssociatedTokenAddressSync } from "@solana/spl-token";
 import { NameRegistryState } from "../src/state";
+import { Record } from "../src/types/record";
 jest.setTimeout(20_000);
 
 // Use custom devnet rpc if rate limited
@@ -14,6 +15,7 @@ const connection = new Connection(
 
 const OWNER = new PublicKey("3f9fRjLaDSDVxd26xMEm4WuSXv62cGt5qVfEVGwMfTz6");
 const OWNER2 = new PublicKey("DjXsn34uz8hnC4KLiSkEVNmzqX5ZFP2Q7aErTBH8LWxe");
+const OWNER3 = new PublicKey("3DdZkHbt2rHDzKSNPK9ApQCwhA6anDKUzuWoCooie6oJ");
 
 test("Registration", async () => {
   const tx = new Transaction();
@@ -186,6 +188,142 @@ test("Transfer sub", async () => {
   const { blockhash } = await connection.getLatestBlockhash();
   tx.recentBlockhash = blockhash;
   tx.feePayer = OWNER;
+  const res = await connection.simulateTransaction(tx);
+  expect(res.value.err).toBe(null);
+});
+
+test("Set primary", async () => {
+  const tx = new Transaction();
+
+  const domain = "devnet-test-1";
+
+  const { pubkey: nameAccount } = devnet.utils.getDomainKeySync(domain);
+
+  const ix = await devnet.bindings.setPrimaryDomain(
+    connection,
+    nameAccount,
+    OWNER,
+  );
+  tx.add(ix);
+  const { blockhash } = await connection.getLatestBlockhash();
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = OWNER;
+  const res = await connection.simulateTransaction(tx);
+  expect(res.value.err).toBe(null);
+});
+
+test("Get primary", async () => {
+  const domain = "dotsofan22";
+
+  const { reverse: primaryDomain } = await devnet.utils.getPrimaryDomain(
+    connection,
+    OWNER3,
+  );
+
+  expect(primaryDomain).toBe(domain);
+});
+
+test("Set record", async () => {
+  const tx = new Transaction();
+
+  const domain = "devnet-test-1";
+
+  const ix = await devnet.bindings.createRecordV2Instruction(
+    domain,
+    Record.Discord,
+    "ilovedotso",
+    OWNER,
+    OWNER,
+  );
+
+  tx.add(ix);
+  const { blockhash } = await connection.getLatestBlockhash();
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = OWNER;
+  const res = await connection.simulateTransaction(tx);
+  expect(res.value.err).toBe(null);
+});
+
+test("Write ROA", async () => {
+  const tx = new Transaction();
+
+  const domain = "dotsofan22";
+
+  const ix = devnet.bindings.writRoaRecordV2(
+    domain,
+    Record.SOL,
+    OWNER3,
+    OWNER3,
+    OWNER3,
+  );
+
+  tx.add(ix);
+  const { blockhash } = await connection.getLatestBlockhash();
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = OWNER3;
+  const res = await connection.simulateTransaction(tx);
+  expect(res.value.err).toBe(null);
+});
+
+test("Validate Record", async () => {
+  const tx = new Transaction();
+
+  const domain = "dotsofan22";
+
+  const ix = devnet.bindings.validateRecordV2Content(
+    false,
+    domain,
+    Record.SOL,
+    OWNER3,
+    OWNER3,
+    OWNER3,
+  );
+
+  tx.add(ix);
+  const { blockhash } = await connection.getLatestBlockhash();
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = OWNER3;
+  const res = await connection.simulateTransaction(tx);
+  expect(res.value.err).toBe(null);
+});
+
+test("Update Record", async () => {
+  const tx = new Transaction();
+
+  const domain = "dotsofan22";
+
+  const ix = devnet.bindings.updateRecordV2Instruction(
+    domain,
+    Record.Telegram,
+    "iLoveDotso",
+    OWNER3,
+    OWNER3,
+  );
+
+  tx.add(ix);
+  const { blockhash } = await connection.getLatestBlockhash();
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = OWNER3;
+  const res = await connection.simulateTransaction(tx);
+  expect(res.value.err).toBe(null);
+});
+
+test("Delete Record", async () => {
+  const tx = new Transaction();
+
+  const domain = "dotsofan22";
+
+  const ix = devnet.bindings.deleteRecordV2(
+    domain,
+    Record.Telegram,
+    OWNER3,
+    OWNER3,
+  );
+
+  tx.add(ix);
+  const { blockhash } = await connection.getLatestBlockhash();
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = OWNER3;
   const res = await connection.simulateTransaction(tx);
   expect(res.value.err).toBe(null);
 });
