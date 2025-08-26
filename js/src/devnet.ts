@@ -859,6 +859,7 @@ const setPrimaryDomain = async (
     SystemProgram.programId,
     parent,
   );
+
   return ix;
 };
 
@@ -929,42 +930,20 @@ const createRecordV2Instruction = (
     throw new InvalidParentError("Parent could not be found");
   }
 
-  const allocateAndPostRecord = (
-    feePayer: PublicKey,
-    recordKey: PublicKey,
-    domainKey: PublicKey,
-    domainOwner: PublicKey,
-    nameProgramId: PublicKey,
-    record: string,
-    content: Buffer,
-    programId: PublicKey,
-  ) => {
-    const ix = new allocateAndPostRecordInstruction({
-      record,
-      content: Array.from(content),
-    }).getInstruction(
-      programId,
-      SystemProgram.programId,
-      nameProgramId,
-      feePayer,
-      recordKey,
-      domainKey,
-      domainOwner,
-      constants.CENTRAL_STATE_SNS_RECORDS,
-    );
-    return ix;
-  };
-
-  const ix = allocateAndPostRecord(
+  const ix = new allocateAndPostRecordInstruction({
+    record: `\x02`.concat(record as string),
+    content: Array.from(serializeRecordV2Content(content, record)),
+  }).getInstruction(
+    constants.SNS_RECORDS_ID,
+    SystemProgram.programId,
+    constants.NAME_PROGRAM_ID,
     payer,
     pubkey,
     parent,
     owner,
-    constants.NAME_PROGRAM_ID,
-    `\x02`.concat(record as string),
-    serializeRecordV2Content(content, record),
-    constants.SNS_RECORDS_ID,
+    constants.CENTRAL_STATE_SNS_RECORDS,
   );
+
   return ix;
 };
 
@@ -990,32 +969,6 @@ const updateRecordV2Instruction = (
     RecordVersion.V2,
   );
 
-  const editRecord = (
-    feePayer: PublicKey,
-    recordKey: PublicKey,
-    domainKey: PublicKey,
-    domainOwner: PublicKey,
-    nameProgramId: PublicKey,
-    record: string,
-    content: Buffer,
-    programId: PublicKey,
-  ) => {
-    const ix = new editRecordInstruction({
-      record,
-      content: Array.from(content),
-    }).getInstruction(
-      programId,
-      SystemProgram.programId,
-      nameProgramId,
-      feePayer,
-      recordKey,
-      domainKey,
-      domainOwner,
-      constants.CENTRAL_STATE_SNS_RECORDS,
-    );
-    return ix;
-  };
-
   if (isSub) {
     parent = getDomainKeySync(domain).pubkey;
   }
@@ -1024,15 +977,18 @@ const updateRecordV2Instruction = (
     throw new InvalidParentError("Parent could not be found");
   }
 
-  const ix = editRecord(
+  const ix = new editRecordInstruction({
+    record: `\x02`.concat(record as string),
+    content: Array.from(serializeRecordV2Content(content, record)),
+  }).getInstruction(
+    constants.SNS_RECORDS_ID,
+    SystemProgram.programId,
+    constants.NAME_PROGRAM_ID,
     payer,
     pubkey,
     parent,
     owner,
-    constants.NAME_PROGRAM_ID,
-    `\x02`.concat(record as string),
-    serializeRecordV2Content(content, record),
-    constants.SNS_RECORDS_ID,
+    constants.CENTRAL_STATE_SNS_RECORDS,
   );
 
   return ix;
@@ -1057,27 +1013,6 @@ const deleteRecordV2 = (
     RecordVersion.V2,
   );
 
-  const deleteRecord = (
-    feePayer: PublicKey,
-    domainKey: PublicKey,
-    domainOwner: PublicKey,
-    recordKey: PublicKey,
-    nameProgramId: PublicKey,
-    programId: PublicKey,
-  ) => {
-    const ix = new deleteRecordInstruction().getInstruction(
-      programId,
-      SystemProgram.programId,
-      nameProgramId,
-      feePayer,
-      recordKey,
-      domainKey,
-      domainOwner,
-      constants.CENTRAL_STATE_SNS_RECORDS,
-    );
-    return ix;
-  };
-
   if (isSub) {
     parent = getDomainKeySync(domain).pubkey;
   }
@@ -1086,14 +1021,17 @@ const deleteRecordV2 = (
     throw new InvalidParentError("Parent could not be found");
   }
 
-  const ix = deleteRecord(
+  const ix = new deleteRecordInstruction().getInstruction(
+    constants.SNS_RECORDS_ID,
+    SystemProgram.programId,
+    constants.NAME_PROGRAM_ID,
     payer,
+    pubkey,
     parent,
     owner,
-    pubkey,
-    constants.NAME_PROGRAM_ID,
-    constants.SNS_RECORDS_ID,
+    constants.CENTRAL_STATE_SNS_RECORDS,
   );
+
   return ix;
 };
 
@@ -1120,32 +1058,6 @@ const validateRecordV2Content = (
     RecordVersion.V2,
   );
 
-  const validateSolanaSignature = (
-    feePayer: PublicKey,
-    recordKey: PublicKey,
-    domainKey: PublicKey,
-    domainOwner: PublicKey,
-    verifier: PublicKey,
-    nameProgramId: PublicKey,
-    staleness: boolean,
-    programId: PublicKey,
-  ) => {
-    const ix = new validateSolanaSignatureInstruction({
-      staleness,
-    }).getInstruction(
-      programId,
-      SystemProgram.programId,
-      nameProgramId,
-      feePayer,
-      recordKey,
-      domainKey,
-      domainOwner,
-      constants.CENTRAL_STATE_SNS_RECORDS,
-      verifier,
-    );
-    return ix;
-  };
-
   if (isSub) {
     parent = getDomainKeySync(domain).pubkey;
   }
@@ -1154,16 +1066,20 @@ const validateRecordV2Content = (
     throw new InvalidParentError("Parent could not be found");
   }
 
-  const ix = validateSolanaSignature(
+  const ix = new validateSolanaSignatureInstruction({
+    staleness,
+  }).getInstruction(
+    constants.SNS_RECORDS_ID,
+    SystemProgram.programId,
+    constants.NAME_PROGRAM_ID,
     payer,
     pubkey,
     parent,
     owner,
+    constants.CENTRAL_STATE_SNS_RECORDS,
     verifier,
-    constants.NAME_PROGRAM_ID,
-    staleness,
-    constants.SNS_RECORDS_ID,
   );
+
   return ix;
 };
 
@@ -1188,30 +1104,6 @@ const writRoaRecordV2 = (
     RecordVersion.V2,
   );
 
-  const writeRoa = (
-    feePayer: PublicKey,
-    nameProgramId: PublicKey,
-    recordKey: PublicKey,
-    domainKey: PublicKey,
-    domainOwner: PublicKey,
-    roaId: PublicKey,
-    programId: PublicKey,
-  ) => {
-    const ix = new writeRoaInstruction({
-      roaId: Array.from(roaId.toBuffer()),
-    }).getInstruction(
-      programId,
-      SystemProgram.programId,
-      nameProgramId,
-      feePayer,
-      recordKey,
-      domainKey,
-      domainOwner,
-      constants.CENTRAL_STATE_SNS_RECORDS,
-    );
-    return ix;
-  };
-
   if (isSub) {
     parent = getDomainKeySync(domain).pubkey;
   }
@@ -1220,15 +1112,19 @@ const writRoaRecordV2 = (
     throw new InvalidParentError("Parent could not be found");
   }
 
-  const ix = writeRoa(
-    payer,
+  const ix = new writeRoaInstruction({
+    roaId: Array.from(roaId.toBuffer()),
+  }).getInstruction(
+    constants.SNS_RECORDS_ID,
+    SystemProgram.programId,
     constants.NAME_PROGRAM_ID,
+    payer,
     pubkey,
     parent,
     owner,
-    roaId,
-    constants.SNS_RECORDS_ID,
+    constants.CENTRAL_STATE_SNS_RECORDS,
   );
+
   return ix;
 };
 
