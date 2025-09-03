@@ -61,14 +61,14 @@ const constants = {
    * The `.sol` TLD
    */
   ROOT_DOMAIN_ACCOUNT: new PublicKey(
-    "5eoDkP6vCQBXqDV9YN2NdUs3nmML3dMRNmEYpiyVNBm2",
+    "CWG7Sn38ho7EzTaQMDykw6VNSSGcbn3TTsTvhDbTUmFd",
   ),
 
   /**
    * The Registry program ID
    */
   REGISTER_PROGRAM_ID: new PublicKey(
-    "snshBoEQ9jx4QoHBpZDQPYdNCtw7RMxJvYrKFEhwaPJ",
+    "SNSm5hSYiaeYvyweSGoioyyD2hP7mJK1SsVQoC6uo3P",
   ),
 
   NAME_OFFERS_ID: new PublicKey("zugu92jR3kqgFiNEJywq7gbbc9NbaLmHLiQhsZRwd6J"),
@@ -83,7 +83,7 @@ const constants = {
    * The reverse look up class
    */
   REVERSE_LOOKUP_CLASS: new PublicKey(
-    "7NbD1vprif6apthEZAqhRfYuhrqnuderB8qpnfXGCc8H",
+    "HGNbgpaHhjx9i4Ndf3AFCUNSJbaZismu9qteEDhixN3f",
   ),
 
   USDC_MINT: new PublicKey("4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"),
@@ -142,7 +142,7 @@ const constants = {
     "BmA9Z6FjioHJPpjT39QazZyhDRUdZy2ezwx4GiDdE2u2",
   ),
 
-  VAULT_OWNER: new PublicKey("SNSaTJbEv2iT3CUrCQYa9zpGjbBVWhFCPaSJHkaJX34"),
+  VAULT_OWNER: new PublicKey("DEsFp1nXYorrxc19RR8dE13iz1ptW7swUEZeKd5mjsem"),
 };
 
 const getNameAccountKeySync = (

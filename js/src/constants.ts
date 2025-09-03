@@ -13,24 +13,24 @@ export const NAME_PROGRAM_ID = new PublicKey(
 export const HASH_PREFIX = "SPL Name Service";
 
 /**
- * The `.sol` TLD
+ * The `.gorbagana` TLD
  */
 export const ROOT_DOMAIN_ACCOUNT = new PublicKey(
-  "58PwtjSDuFHuUkYjH9BYnnQKHfwo9reZhC2zMJv9JPkx",
+  "CWG7Sn38ho7EzTaQMDykw6VNSSGcbn3TTsTvhDbTUmFd",
 );
 
 /**
  * The Registry program ID
  */
 export const REGISTER_PROGRAM_ID = new PublicKey(
-  "jCebN34bUfdeUYJT13J1yG16XWQpt5PDx6Mse9GUqhR",
+  "SNSm5hSYiaeYvyweSGoioyyD2hP7mJK1SsVQoC6uo3P",
 );
 
 /**
  * The reverse look up class
  */
 export const REVERSE_LOOKUP_CLASS = new PublicKey(
-  "33m47vH6Eav6jr5Ry86XjhRft2jRBLDnDgPSHoquXi2Z",
+  "HGNbgpaHhjx9i4Ndf3AFCUNSJbaZismu9qteEDhixN3f",
 );
 
 export const CENTRAL_STATE = REVERSE_LOOKUP_CLASS;
@@ -166,11 +166,11 @@ export const PYTH_MAPPING_ACC = new PublicKey(
 );
 
 export const VAULT_OWNER_DEPRECATED = new PublicKey(
-  "GcWEQ9K78FV7LEHteFVciYApERk5YvQuFDQPk1yYJVXi",
+  "DEsFp1nXYorrxc19RR8dE13iz1ptW7swUEZeKd5mjsem",
 );
 
 export const VAULT_OWNER = new PublicKey(
-  "5D2zKog251d6KPCyFyLMt3KroWwXXPWSgTPyhV22K2gR",
+  "DEsFp1nXYorrxc19RR8dE13iz1ptW7swUEZeKd5mjsem",
 );
 
 export const CUSTOM_BG_TLD = new PublicKey(

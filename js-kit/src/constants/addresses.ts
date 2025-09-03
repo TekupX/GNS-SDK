@@ -19,16 +19,16 @@ export const NAME_PROGRAM_ADDRESS =
   "namesLPneVptA9Z5rqUDD9tMTWEJwofgaYwp8cawRkX" as Address;
 
 /**
- * The `.sol` TLD
+ * The `.gorbagana` TLD
  */
 export const ROOT_DOMAIN_ADDRESS =
-  "58PwtjSDuFHuUkYjH9BYnnQKHfwo9reZhC2zMJv9JPkx" as Address;
+  "CWG7Sn38ho7EzTaQMDykw6VNSSGcbn3TTsTvhDbTUmFd" as Address;
 
 /**
  * The SNS Registry program address
  */
 export const REGISTRY_PROGRAM_ADDRESS =
-  "jCebN34bUfdeUYJT13J1yG16XWQpt5PDx6Mse9GUqhR" as Address;
+  "SNSm5hSYiaeYvyweSGoioyyD2hP7mJK1SsVQoC6uo3P" as Address;
 
 /**
  * The SNS Name Tokenizer program address
@@ -52,7 +52,7 @@ export const RECORDS_PROGRAM_ADDRESS =
  * The reverse look up class
  */
 export const REVERSE_LOOKUP_CLASS =
-  "33m47vH6Eav6jr5Ry86XjhRft2jRBLDnDgPSHoquXi2Z" as Address;
+  "HGNbgpaHhjx9i4Ndf3AFCUNSJbaZismu9qteEDhixN3f" as Address;
 
 export const CENTRAL_STATE = REVERSE_LOOKUP_CLASS;
 
@@ -75,7 +75,7 @@ export const TWITTER_ROOT_PARENT_REGISTRY_ADDRESS =
   "4YcexoW3r78zz16J2aqmukBLRwGq6rAvWzJpkYAXqebv" as Address;
 
 export const VAULT_OWNER =
-  "5D2zKog251d6KPCyFyLMt3KroWwXXPWSgTPyhV22K2gR" as Address;
+  "DEsFp1nXYorrxc19RR8dE13iz1ptW7swUEZeKd5mjsem" as Address;
 
 export const USDC_MINT =
   "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" as Address;
