@@ -2,7 +2,7 @@
 <img width="250" src="https://v2.sns.id/assets/logo/brand.svg"/>
 </p>
 
-# SNS JS-KIT SDK
+# GNS JS-KIT SDK
 
 ![npm version](https://img.shields.io/npm/v/@solana-name-service/sns-sdk-kit)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
