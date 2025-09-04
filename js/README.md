@@ -12,9 +12,9 @@ The JS-KIT SDK is a JavaScript toolkit for managing .gor domains and records. Bu
 
 User guide can be found [here](https://bonfida.github.io/solana-name-service-guide).
 
-# Solana Domain Service Guide
+# Gorbagana Domain Service Guide
 
-A guide to retrieve all domains owned by a user using the Solana Name Service.
+A guide to retrieve all domains owned by a user using the Gorbagana Name Service.
 
 ## Overview
 
