@@ -61,11 +61,11 @@ This repository contains the Developer documentation specifically for the GNS SD
 <br />
 
 ```
-yarn add @tekupx/spl-name-service
+yarn add @gorid/spl-name-service
 ```
 
 ```
-npm i @tekupx/spl-name-service
+npm i @gorid/spl-name-service
 ```
 
 The JS SDK is the most complete SDK, it contains all the utils methods to interact with domain names as well as instruction builders to register domain names.
