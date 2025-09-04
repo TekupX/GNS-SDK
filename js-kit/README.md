@@ -29,11 +29,11 @@ The JS-KIT SDK is a JavaScript toolkit for managing .gor domains and records. Bu
 ## Installation
 
 ```bash
-npm install @tekupx/gns-sdk-kit@beta @solana/kit
+npm install @gorid/gns-sdk-kit@beta @solana/kit
 ```
 
 ```
-yarn add @tekupx/sns-sdk-kit@beta @solana/kit
+yarn add @gorid/gns-sdk-kit@beta @solana/kit
 ```
 
 ## Example Usage
@@ -44,7 +44,7 @@ import {
   getDomainRecord,
   getPrimaryDomain,
   resolveDomain,
-} from "@tekupx/sns-sdk-kit";
+} from "@gorid/gns-sdk-kit";
 import {
   Address,
   createDefaultRpcTransport,
@@ -64,7 +64,7 @@ import {
   // Get domain records
   const records = await getDomainRecord({
     rpc,
-    domain: "sns.gol",
+    domain: "sns.gor",
     record: Record.Url,
     options: {
       deserialize: true,

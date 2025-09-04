@@ -1,5 +1,5 @@
 {
-  "name": "@tekupx/spl-name-service",
+  "name": "@gorid/spl-name-service",
   "version": "1.0.0",
   "license": "MIT",
   "files": [
@@ -25,7 +25,7 @@
     "type": "git",
     "url": "https://github.com/TekupX/GNS-SDK"
   },
-  "homepage": "https://sns.guide",
+  "homepage": "https://gorid.com/",
   "scripts": {
     "dev": "tsc && node --trace-warnings dist/test.js",
     "build": "rm -rf dist && rollup -c && tsc --emitDeclarationOnly --declarationDir dist/cjs && tsc --emitDeclarationOnly --declarationDir dist/esm && echo '{\"type\": \"commonjs\"}' > ./dist/cjs/package.json",

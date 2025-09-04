@@ -1,5 +1,5 @@
 {
-  "name": "@tekupx/gns-sdk-kit",
+  "name": "@gorid/gns-sdk-kit",
   "version": "0.1.1",
   "license": "MIT",
   "files": [
@@ -80,7 +80,7 @@
     "type": "git",
     "url": "https://github.com/TekupX/GNS-SDK"
   },
-  "homepage": "https://sns.guide",
+  "homepage": "https://gorid.com/",
   "scripts": {
     "build": "rollup -c",
     "prepack": "npm run build",
