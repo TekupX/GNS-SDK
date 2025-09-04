@@ -58,7 +58,7 @@ const constants = {
   HASH_PREFIX: "SPL Name Service",
 
   /**
-   * The `.sol` TLD
+   * The `.gor` TLD
    */
   ROOT_DOMAIN_ACCOUNT: new PublicKey(
     "CWG7Sn38ho7EzTaQMDykw6VNSSGcbn3TTsTvhDbTUmFd",
@@ -83,7 +83,7 @@ const constants = {
    * The reverse look up class
    */
   REVERSE_LOOKUP_CLASS: new PublicKey(
-    "HGNbgpaHhjx9i4Ndf3AFCUNSJbaZismu9qteEDhixN3f",
+    "5R7P6U3gTB9Dt4jnE85qXsEoXRkSAqmW7ZRnSvNiJLNC",
   ),
 
   USDC_MINT: new PublicKey("4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"),

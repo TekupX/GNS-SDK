@@ -19,7 +19,7 @@ export const NAME_PROGRAM_ADDRESS =
   "namesLPneVptA9Z5rqUDD9tMTWEJwofgaYwp8cawRkX" as Address;
 
 /**
- * The `.gorbagana` TLD
+ * The `.gor` TLD
  */
 export const ROOT_DOMAIN_ADDRESS =
   "CWG7Sn38ho7EzTaQMDykw6VNSSGcbn3TTsTvhDbTUmFd" as Address;
@@ -52,7 +52,7 @@ export const RECORDS_PROGRAM_ADDRESS =
  * The reverse look up class
  */
 export const REVERSE_LOOKUP_CLASS =
-  "HGNbgpaHhjx9i4Ndf3AFCUNSJbaZismu9qteEDhixN3f" as Address;
+  "5R7P6U3gTB9Dt4jnE85qXsEoXRkSAqmW7ZRnSvNiJLNC" as Address;
 
 export const CENTRAL_STATE = REVERSE_LOOKUP_CLASS;
 

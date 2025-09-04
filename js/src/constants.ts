@@ -13,7 +13,7 @@ export const NAME_PROGRAM_ID = new PublicKey(
 export const HASH_PREFIX = "SPL Name Service";
 
 /**
- * The `.gorbagana` TLD
+ * The `.gor` TLD
  */
 export const ROOT_DOMAIN_ACCOUNT = new PublicKey(
   "CWG7Sn38ho7EzTaQMDykw6VNSSGcbn3TTsTvhDbTUmFd",
@@ -30,7 +30,7 @@ export const REGISTER_PROGRAM_ID = new PublicKey(
  * The reverse look up class
  */
 export const REVERSE_LOOKUP_CLASS = new PublicKey(
-  "HGNbgpaHhjx9i4Ndf3AFCUNSJbaZismu9qteEDhixN3f",
+  "5R7P6U3gTB9Dt4jnE85qXsEoXRkSAqmW7ZRnSvNiJLNC",
 );
 
 export const CENTRAL_STATE = REVERSE_LOOKUP_CLASS;

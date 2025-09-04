@@ -1,4 +1,4 @@
-<h1 align="center">SNS SDK</h1>
+<h1 align="center">GNS SDK</h1>
 <br />
 <p align="center">
 <img width="250" src="https://i.imgur.com/nn7LMNV.png"/>
@@ -12,7 +12,7 @@
 
 <p align="center">
 <strong>
-SNS SDK monorepo
+GNS SDK monorepo
 </strong>
 </p>
 
@@ -36,28 +36,24 @@ SNS SDK monorepo
 <h2 align="center">Table of contents</h2>
 <br />
 
-1. [SNS documentation](#sns-documentation)
+1. [GNS documentation](#sns-documentation)
 2. [Javascript](#javascript)
 3. [Rust](#rust)
 4. [SDK Proxy](#sdk-proxy)
 5. [Python](#python)
 6. [Java](#java)
-7. [Swift](#swift)
-8. [CLI](#cli)
-9. [React](#react)
-10. [Vue](#vue)
-11. [Examples](#examples)
+7. [Examples](#examples)
 
 - Resolving a domain
 
-12. [Bounties](#bounties)
+8. [Bounties](#bounties)
 
 <br />
 <a name="sns-documentation"></a>
-<h2 align="center">SNS documentation</h2>
+<h2 align="center">GNS documentation</h2>
 <br />
 
-This repository contains the Developer documentation specifically for the SNS SDK. You can find the general SNS documentation at [sns.guide](https://sns.guide/)
+This repository contains the Developer documentation specifically for the GNS SDK. You can find the general GNS documentation at [sns.guide](https://sns.guide/)
 
 <br />
 <a name="javascript"></a>
@@ -65,11 +61,11 @@ This repository contains the Developer documentation specifically for the SNS SD
 <br />
 
 ```
-yarn add @bonfida/spl-name-service
+yarn add @tekupx/spl-name-service
 ```
 
 ```
-npm i @bonfida/spl-name-service
+npm i @tekupx/spl-name-service
 ```
 
 The JS SDK is the most complete SDK, it contains all the utils methods to interact with domain names as well as instruction builders to register domain names.
@@ -79,7 +75,7 @@ The JS SDK is the most complete SDK, it contains all the utils methods to intera
 <h2 align="center">Rust</h2>
 <br />
 
-The Rust SDK provides everything you need for resolving domain ownership and records within the Solana Name Service (SNS)
+The Rust SDK provides everything you need for resolving domain ownership and records
 
 - `resolve_owner`: Resolves the owner of a given domain
 - `resolve_record`: Resolves a specific record of a given domain
@@ -123,44 +119,6 @@ NOTE: All endpoints capable of performing RPC calls currently support an optiona
 
 The SDK proxy is deployed at: https://sns-sdk-proxy.bonfida.workers.dev/
 
-<br />
-<a name="cli"></a>
-<h2 align="center">CLI</h2>
-<br />
-
-The CLI can be installed with:
-
-```
-cargo install sns-cli
-```
-
-The CLI has the following commands:
-
-- `sns resolve <domains>`
-- `sns domains <owners>`
-- `sns burn <domains> <keypair_path>`
-- `sns transfer <keypair_path> <new_owner_key> <domains>`
-- `sns lookup <domains>`
-- `sns reverse-lookup <key>`
-- `sns bridge <target_chain> <domain> <keypair_path>`
-- `sns register <keypair_path> <space> <domains>`
-
-For instance
-
-```
-$ sns resolve bonfida solana.sol coinbase
-
-+------------+----------------------------------------------+----------------------------------------------------------------------------------+
-| Domain     | Owner                                        | Explorer                                                                         |
-+------------+----------------------------------------------+----------------------------------------------------------------------------------+
-| bonfida    | HKKp49qGWXd639QsuH7JiLijfVW5UtCVY4s1n2HANwEA | https://explorer.solana.com/address/HKKp49qGWXd639QsuH7JiLijfVW5UtCVY4s1n2HANwEA |
-+------------+----------------------------------------------+----------------------------------------------------------------------------------+
-| solana.sol | 3Wnd5Df69KitZfUoPYZU438eFRNwGHkhLnSAWL65PxJX | https://explorer.solana.com/address/3Wnd5Df69KitZfUoPYZU438eFRNwGHkhLnSAWL65PxJX |
-+------------+----------------------------------------------+----------------------------------------------------------------------------------+
-| coinbase   | 7sF2JumHpWiPjS3XtnQ8cKraTzzfcGSvQHcV3yTaPZ5E | https://explorer.solana.com/address/7sF2JumHpWiPjS3XtnQ8cKraTzzfcGSvQHcV3yTaPZ5E |
-+------------+----------------------------------------------+----------------------------------------------------------------------------------+
-
-```
 
 <br />
 <a name="python"></a>
@@ -180,42 +138,8 @@ Work in progress
 <br />
 Work in progress
 
-<br />
-<a name="examples"></a>
-<h2 id="react" align="center">React</h2>
-<br />
-
-This package contains a set of useful React hooks to help you build your perfect dApp. If you are interested in a hook that is not included in this package please open an issue to let us know!
-
-```
-npm i @bonfida/sns-react
-```
-
-```
-yarn add @bonfida/sns-react
-```
-
-<br />
-<h2 id="vue" align="center">Vue</h2>
-<br />
-
-This package contains a set of useful Vue composables to help you build your perfect dApp. If you are interested in a composable that is not included in this package please open an issue to let us know!
-
-```
-npm i @bonfida/sns-vue
-```
-
-```
-yarn add @bonfida/sns-vue
-```
-
-[Demo app](/examples/vue-app) with an example of each composable usage.
-
-<br />
 <a name="examples"></a>
 <h2 align="center">Examples</h2>
-<br />
-
 <br />
 <h3 align="center">Resolving a domain</h2>
 <br />
@@ -225,7 +149,7 @@ The following examples show how to resolve the domain `bonfida.sol`:
 1. With the JS SDK
 
 ```js
-const connection = new Connection(clusterApiUrl("mainnet-beta"));
+const connection = new Connection("https://rpc.gorbagana.wtf/");
 const owner = await resolve(connection, "bonfida");
 expect(owner.toBase58()).toBe("HKKp49qGWXd639QsuH7JiLijfVW5UtCVY4s1n2HANwEA");
 ```
@@ -238,42 +162,6 @@ let res = resolve_owner(&client, "bonfida").await.unwrap();
 assert_eq!(res, pubkey!("HKKp49qGWXd639QsuH7JiLijfVW5UtCVY4s1n2HANwEA"));
 ```
 
-3. With the CLI
-
-```bash
-$ sns resolve bonfida
-
-+---------+----------------------------------------------+----------------------------------------------------------------------------------+
-| Domain  | Owner                                        | Explorer                                                                         |
-+---------+----------------------------------------------+----------------------------------------------------------------------------------+
-| bonfida | HKKp49qGWXd639QsuH7JiLijfVW5UtCVY4s1n2HANwEA | https://explorer.solana.com/address/HKKp49qGWXd639QsuH7JiLijfVW5UtCVY4s1n2HANwEA |
-+---------+----------------------------------------------+----------------------------------------------------------------------------------+
-```
-
-4. With the Cloudflare worker
-
-```bash
-GET https://sns-sdk-proxy.bonfida.workers.dev/resolve/bonfida
-```
-
-```json
-{ "s": "ok", "result": "HKKp49qGWXd639QsuH7JiLijfVW5UtCVY4s1n2HANwEA" }
-```
-
-5. With the React SDK
-
-```ts
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { useDomainOwner, useDomainsForOwner } from "@bonfida/sns-react";
-
-export const Example = () => {
-  const { connection } = useConnection();
-  const { publicKey, connected } = useWallet();
-  const { result } = useDomainOwner(connection, "bonfida");
-  // ...
-};
-```
 
 <hr>
 
-_If you have any questions or suggestions, feel free to open an issue or pull request, or simply contact us at [@bonfida](https://twitter.com/bonfida). We're always here for a good chat about Solana and the decentralized web!_

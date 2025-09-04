@@ -23,8 +23,9 @@ export const getDomainAddress = async ({
   domain,
   record,
 }: GetDomainAddressParams) => {
-  if (domain.endsWith(".sol")) {
-    domain = domain.slice(0, -4);
+  /// TODO check tld name
+  if (domain.endsWith(".gor")) {
+    domain = domain.slice(0, -10);
   }
 
   const recordClass =

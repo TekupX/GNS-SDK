@@ -13,6 +13,7 @@ import { getDomainMint } from "./nft/getDomainMint";
 import { NameRegistryState } from "./state";
 import { NAME_PROGRAM_ID, ROOT_DOMAIN_ACCOUNT } from "./constants";
 
+/// TODO not working temporarily, needs investigation
 export const NAME_OFFERS_ID = new PublicKey(
   "85iDfUvr3HJyLM2zcq5BXSiDvUWfw6cSE1FfNBo8Ap29",
 );

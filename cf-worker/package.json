@@ -1,5 +1,5 @@
 {
-  "name": "sns-sdk-proxy",
+  "name": "gns-sdk-proxy",
   "version": "0.0.0",
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240117.0",

@@ -4,11 +4,11 @@
 
 # GNS JS-KIT SDK
 
-![npm version](https://img.shields.io/npm/v/@solana-name-service/sns-sdk-kit)
+![npm version](https://img.shields.io/npm/v/@tekupx/sns-sdk-kit)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
 ![License](https://img.shields.io/github/license/bonfida/sns-sdk)
 
-The JS-KIT SDK is a JavaScript toolkit for managing .sol domains and records. Built on `@solana/kit` (formerly `@solana/web3.js` 2.x), it simplifies development and ensures secure and efficient functionality.
+The JS-KIT SDK is a JavaScript toolkit for managing .gor domains and records. Built on `@solana/kit` (formerly `@solana/web3.js` 2.x), it simplifies development and ensures secure and efficient functionality.
 
 **Note: This SDK is currently in beta and subject to changes. Features, APIs, and functionality may evolve as development progresses.**
 
@@ -29,11 +29,11 @@ The JS-KIT SDK is a JavaScript toolkit for managing .sol domains and records. Bu
 ## Installation
 
 ```bash
-npm install @solana-name-service/sns-sdk-kit@beta @solana/kit
+npm install @tekupx/gns-sdk-kit@beta @solana/kit
 ```
 
 ```
-yarn add @solana-name-service/sns-sdk-kit@beta @solana/kit
+yarn add @tekupx/sns-sdk-kit@beta @solana/kit
 ```
 
 ## Example Usage
@@ -44,7 +44,7 @@ import {
   getDomainRecord,
   getPrimaryDomain,
   resolveDomain,
-} from "@solana-name-service/sns-sdk-kit";
+} from "@tekupx/sns-sdk-kit";
 import {
   Address,
   createDefaultRpcTransport,
@@ -58,13 +58,13 @@ import {
   });
   const rpc = createSolanaRpcFromTransport(transport);
 
-  // Resolve .sol domain
-  const resolved = await resolveDomain({ rpc, domain: "sns.sol" });
+  // Resolve .gor domain
+  const resolved = await resolveDomain({ rpc, domain: "sns.gor" });
 
   // Get domain records
   const records = await getDomainRecord({
     rpc,
-    domain: "sns.sol",
+    domain: "sns.gol",
     record: Record.Url,
     options: {
       deserialize: true,

@@ -121,7 +121,6 @@ export const resolveDomain = async ({
   if (!domainAccount.exists) {
     throw new DomainDoesNotExistError(`Domain ${domain} does not exist`);
   }
-
   const registry = RegistryState.deserialize(domainAccount.data);
 
   // If NFT account exists, then the NFT owner is the domain owner
@@ -166,7 +165,6 @@ export const resolveDomain = async ({
       `The RoA ID shoudl be ${addressCodec.decode(content)} but is ${addressCodec.decode(roaId)} `
     );
   }
-
   // Check SOL record V1
   if (solRecordV1Account.exists) {
     const data = new Uint8Array([
@@ -197,10 +195,8 @@ export const resolveDomain = async ({
       );
     }
   }
-
   // Check if the registry owner is a PDA
   const isOnCurve = checkAddressOnCurve(registry.owner);
-
   if (!isOnCurve) {
     if (options.allowPda === "any") {
       return registry.owner;
