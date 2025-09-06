@@ -33,6 +33,10 @@ export const REVERSE_LOOKUP_CLASS = new PublicKey(
   "5R7P6U3gTB9Dt4jnE85qXsEoXRkSAqmW7ZRnSvNiJLNC",
 );
 
+export const OPERATOR = new PublicKey(
+  "7xyrTVdPAaM9Hvrb41HtfUHC1ndHnkbumiW5rRWtUC5g",
+);
+
 export const CENTRAL_STATE = REVERSE_LOOKUP_CLASS;
 
 /**
