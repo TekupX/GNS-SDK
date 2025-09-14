@@ -20,6 +20,8 @@ export * from "./bindings/updateRecordV2Instruction";
 export * from "./bindings/updateSolRecordInstruction";
 export * from "./bindings/validateRecordV2Content";
 export * from "./bindings/writRoaRecordV2";
+export * from "./bindings/freeMint";
+
 
 export * from "./state";
 
@@ -65,6 +67,7 @@ export * from "./instructions/registerFavoriteInstruction";
 export * from "./instructions/transferInstruction";
 export * from "./instructions/updateInstruction";
 export * from "./instructions/types";
+export * from "./instructions/freeMintInstruction";
 
 export * from "./nft/getDomainMint";
 export * from "./nft/retrieveNftOwnerV2";

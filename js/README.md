@@ -19,6 +19,7 @@ A guide to retrieve all domains owned by a user using the Gorbagana Name Service
 ## Overview
 
 This example demonstrates how to:
+
 - Get all domains owned by a specific user
 - Perform reverse lookup from account to domain name
 - Resolve domain names to wallet addresses
@@ -39,6 +40,7 @@ import {
   getAllDomains,
   resolve,
   reverseLookup,
+  ROOT_DOMAIN_ACCOUNT,
 } from "@gorid/spl-name-service";
 
 export async function main() {
@@ -47,53 +49,86 @@ export async function main() {
   // Get all domains owned by a specific user
   const allDomains = await getAllDomains(
     connection,
-    new PublicKey("55M2GxZ55saab85Qcd4NTet6TYqVni1tM3SvUQQiNG6H")
+    new PublicKey("55M2GxZ55saab85Qcd4NTet6TYqVni1tM3SvUQQiNG6H"),
   );
-  console.log("List domain that user owns", allDomains.map(d => d.toString()))
+  console.log(
+    "List domain that user owns",
+    allDomains.map((d) => d.toString()),
+  );
 
   // Reverse lookup: Get domain name from account address
   const resolveDomain = await reverseLookup(
     connection,
-    new PublicKey("GSjr7i3U6xPQMHQN2sWJNhahCJRqQPv23e1HJ4ZtpeWc")
+    new PublicKey("GSjr7i3U6xPQMHQN2sWJNhahCJRqQPv23e1HJ4ZtpeWc"),
   );
-  console.log("Resolve domain from account name: ", resolveDomain.toString())
-  
+  console.log("Resolve domain from account name: ", resolveDomain.toString());
+
   // Resolve domain name to wallet address
-  const owner = await resolve(connection, "jade"); 
+  const owner = await resolve(connection, "jade");
   console.log("Owner :", owner.toString()); // 55M2GxZ55saab85Qcd4NTet6TYqVni1tM3SvUQQiNG6H
+
+  // Transfer ownership
+  const tx = await transferNameOwnership(
+    connection,
+    "demo",
+    new PublicKey("94nXXA7birWgrQ6XNZvMY8vfUBYNXkb9EmKkCzgfMWKy"), // new owner
+    undefined,
+    ROOT_DOMAIN_ACCOUNT,
+  );
+  const result = await connection.sendTransaction(new Transaction().add(tx), [
+    signer,
+  ]);
 }
 ```
 
 ## Functions
 
 ### `getAllDomains(connection, publicKey)`
+
 Retrieves all domains owned by the specified public key.
 
 **Parameters:**
-- `connection`: Solana RPC connection
+
+- `connection`: RPC connection
 - `publicKey`: The owner's public key
 
 **Returns:** Array of domain names
 
 ### `reverseLookup(connection, publicKey)`
+
 Performs reverse lookup to get the domain name associated with an account.
 
 **Parameters:**
-- `connection`: Solana RPC connection  
+
+- `connection`: RPC connection
 - `publicKey`: The account's public key
 
 **Returns:** Domain name string
 
 ### `resolve(connection, domainName)`
+
 Resolves a domain name to its associated wallet address.
 
 **Parameters:**
-- `connection`: Solana RPC connection
+
+- `connection`: RPC connection
 - `domainName`: The domain name to resolve
 
 **Returns:** Public key of the domain owner
 
+### `transferNameOwnership(connection, domainName, newOwner, nameClass, parentName)`
 
+Transfer a domain name to a new wallet address.
+
+**Parameters:**
+
+- `connection`: RPC connection
+- `domainName`: The domain name to transfer
+- `newOwner`: New owner of domain
+- `nameClass`: The name class address
+- `parentName`: The parent address, in this example it's ROOT_DOMAIN_ACCOUNT
+
+**Returns:** Instruction to transfer ownership
 
 ## Dependencies
 
