@@ -15,21 +15,19 @@ import { NAME_PROGRAM_ID, ROOT_DOMAIN_ACCOUNT } from "./constants";
 
 /// TODO not working temporarily, needs investigation
 export const NAME_OFFERS_ID = new PublicKey(
-  "85iDfUvr3HJyLM2zcq5BXSiDvUWfw6cSE1FfNBo8Ap29",
+  "8nbvMciS9B6a93S5Bq3azG3NaHGZq8wC3umnPPU9oTJ",
 );
 
 export class FavouriteDomain {
-  tag: number;
   nameAccount: PublicKey;
   static schema = {
     struct: {
-      tag: "u8",
+      discrimator: { array: { type: "u8", len: 8 } },
       nameAccount: { array: { type: "u8", len: 32 } },
     },
   };
 
   constructor(obj: { tag: number; nameAccount: Uint8Array }) {
-    this.tag = obj.tag;
     this.nameAccount = new PublicKey(obj.nameAccount);
   }
 
@@ -66,7 +64,7 @@ export class FavouriteDomain {
    */
   static async getKey(programId: PublicKey, owner: PublicKey) {
     return await PublicKey.findProgramAddress(
-      [Buffer.from("favourite_domain"), owner.toBuffer()],
+      [Buffer.from("primary"), owner.toBuffer()],
       programId,
     );
   }
@@ -79,7 +77,7 @@ export class FavouriteDomain {
    */
   static getKeySync(programId: PublicKey, owner: PublicKey) {
     return PublicKey.findProgramAddressSync(
-      [Buffer.from("favourite_domain"), owner.toBuffer()],
+      [Buffer.from("primary"), owner.toBuffer()],
       programId,
     );
   }

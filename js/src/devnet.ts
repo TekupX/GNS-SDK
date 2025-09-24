@@ -35,7 +35,6 @@ import { getHashedNameSync } from "./utils/getHashedNameSync";
 import { getPythFeedAccountKey } from "./utils/getPythFeedAccountKey";
 import { PYTH_PULL_FEEDS } from "./constants";
 import { FavouriteDomain } from "./favorite-domain";
-import { registerFavoriteInstruction } from "./instructions/registerFavoriteInstruction";
 import { serializeRecordV2Content } from "./record_v2/serializeRecordV2Content";
 import { Record, RecordVersion } from "./types/record";
 import {
@@ -827,43 +826,6 @@ const registerDomainNameV2 = async (
 };
 
 /**
- * This function can be used to register a domain name as favorite
- * @param nameAccount The name account being registered as favorite
- * @param owner The owner of the name account
- * @param programId The name offer program ID
- * @returns
- */
-const setPrimaryDomain = async (
-  connection: Connection,
-  nameAccount: PublicKey,
-  owner: PublicKey,
-) => {
-  let parent: PublicKey | undefined = undefined;
-  const { registry } = await NameRegistryState.retrieve(
-    connection,
-    nameAccount,
-  );
-  if (!registry.parentName.equals(constants.ROOT_DOMAIN_ACCOUNT)) {
-    parent = registry.parentName;
-  }
-
-  const [favKey] = await FavouriteDomain.getKey(
-    constants.NAME_OFFERS_ID,
-    owner,
-  );
-  const ix = new registerFavoriteInstruction().getInstruction(
-    constants.NAME_OFFERS_ID,
-    nameAccount,
-    favKey,
-    owner,
-    SystemProgram.programId,
-    parent,
-  );
-
-  return ix;
-};
-
-/**
  * This function can be used to retrieve the favorite domain of a user
  * @param connection The Solana RPC connection object
  * @param owner The owner you want to retrieve the favorite domain for
@@ -1149,7 +1111,6 @@ export const devnet = {
     burnDomain,
     transferSubdomain,
     registerDomainNameV2,
-    setPrimaryDomain,
     createRecordV2Instruction,
     updateRecordV2Instruction,
     deleteRecordV2,

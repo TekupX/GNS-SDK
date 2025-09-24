@@ -16,18 +16,17 @@ import {
 } from "../errors";
 
 export class PrimaryDomainState {
-  tag: number;
   nameAccount: Address;
 
   static schema = {
     struct: {
-      tag: "u8",
+      discriminator: { array: { type: "u8", len: 8 } },
       nameAccount: { array: { type: "u8", len: 32 } },
     },
   };
 
-  constructor(obj: { tag: number; nameAccount: Uint8Array }) {
-    this.tag = obj.tag;
+  constructor(obj: { tag: Uint8Array; nameAccount: Uint8Array }) {
+
     this.nameAccount = addressCodec.decode(obj.nameAccount);
   }
 
@@ -81,7 +80,7 @@ export class PrimaryDomainState {
     const [address] = await getProgramDerivedAddress({
       programAddress,
       seeds: [
-        utf8Codec.encode("favourite_domain"),
+        utf8Codec.encode("primary"),
         addressCodec.encode(walletAddress),
       ],
     });

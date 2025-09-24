@@ -40,7 +40,7 @@ export const NAME_TOKENIZER_ADDRESS =
  * The SNS Offers program address
  */
 export const NAME_OFFERS_ADDRESS =
-  "85iDfUvr3HJyLM2zcq5BXSiDvUWfw6cSE1FfNBo8Ap29" as Address;
+  "8nbvMciS9B6a93S5Bq3azG3NaHGZq8wC3umnPPU9oTJ" as Address;
 
 /**
  * The SNS Records program address (SNS_RECORDS_ID)

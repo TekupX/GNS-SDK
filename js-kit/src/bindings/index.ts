@@ -7,7 +7,6 @@ export * from "./deleteNameRegistry";
 export * from "./deleteRecord";
 export * from "./registerDomain";
 export * from "./registerWithNft";
-export * from "./setPrimaryDomain";
 export * from "./transferDomain";
 export * from "./transferSubdomain";
 export * from "./updateNameRegistry";
