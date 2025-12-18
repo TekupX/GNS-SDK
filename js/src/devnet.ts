@@ -141,7 +141,7 @@ const constants = {
     "BmA9Z6FjioHJPpjT39QazZyhDRUdZy2ezwx4GiDdE2u2",
   ),
 
-  VAULT_OWNER: new PublicKey("DEsFp1nXYorrxc19RR8dE13iz1ptW7swUEZeKd5mjsem"),
+  VAULT_OWNER: new PublicKey("FzdN2zE7QUmwKL2T4Y3LTcBUYGtMZP5qsgUjBxsdedNx"),
 };
 
 const getNameAccountKeySync = (

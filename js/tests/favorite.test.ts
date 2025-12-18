@@ -12,7 +12,7 @@ const connection = new Connection("https://rpc.gorbagana.wtf/");
 
 test("Favorite domain", async () => {
  
-    const fav = await getFavoriteDomain(connection, new PublicKey("DEsFp1nXYorrxc19RR8dE13iz1ptW7swUEZeKd5mjsem"));
+    const fav = await getFavoriteDomain(connection, new PublicKey("FzdN2zE7QUmwKL2T4Y3LTcBUYGtMZP5qsgUjBxsdedNx"));
     console.log("🚀 ~ file: favorite.test.ts:23 ~ test ~ fav:", fav)
 
   

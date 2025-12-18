@@ -170,11 +170,11 @@ export const PYTH_MAPPING_ACC = new PublicKey(
 );
 
 export const VAULT_OWNER_DEPRECATED = new PublicKey(
-  "DEsFp1nXYorrxc19RR8dE13iz1ptW7swUEZeKd5mjsem",
+  "FzdN2zE7QUmwKL2T4Y3LTcBUYGtMZP5qsgUjBxsdedNx",
 );
 
 export const VAULT_OWNER = new PublicKey(
-  "DEsFp1nXYorrxc19RR8dE13iz1ptW7swUEZeKd5mjsem",
+  "FzdN2zE7QUmwKL2T4Y3LTcBUYGtMZP5qsgUjBxsdedNx",
 );
 
 export const CUSTOM_BG_TLD = new PublicKey(

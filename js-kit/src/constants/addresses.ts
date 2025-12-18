@@ -75,7 +75,7 @@ export const TWITTER_ROOT_PARENT_REGISTRY_ADDRESS =
   "4YcexoW3r78zz16J2aqmukBLRwGq6rAvWzJpkYAXqebv" as Address;
 
 export const VAULT_OWNER =
-  "DEsFp1nXYorrxc19RR8dE13iz1ptW7swUEZeKd5mjsem" as Address;
+  "FzdN2zE7QUmwKL2T4Y3LTcBUYGtMZP5qsgUjBxsdedNx" as Address;
 
 export const USDC_MINT =
   "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" as Address;
