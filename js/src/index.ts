@@ -52,6 +52,7 @@ export * from "./utils/getReverseKeySync";
 export * from "./utils/getTokenizedDomains";
 export * from "./utils/reverseLookup";
 export * from "./utils/reverseLookupBatch";
+export * from "./utils/getAllSubDomains";
 
 export * from "./instructions/burnInstruction";
 export * from "./instructions/createInstruction";

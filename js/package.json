@@ -1,6 +1,6 @@
 {
   "name": "@gorid/spl-name-service",
-  "version": "1.0.3-beta",
+  "version": "1.0.5",
   "license": "MIT",
   "files": [
     "dist"
